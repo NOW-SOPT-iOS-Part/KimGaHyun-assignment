@@ -23,7 +23,10 @@ final class LoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        setStyle()
+        setHierarchy()
+        setLayout()
     }
 }
 
@@ -32,11 +35,11 @@ final class LoginViewController: UIViewController {
 private extension LoginViewController {
 
     func setStyle() {
-        
+        view.backgroundColor = .tvingBlack
     }
     
     func setHierarchy() {
-
+        view.addSubview(loginView)
     }
     
     func setLayout() {
