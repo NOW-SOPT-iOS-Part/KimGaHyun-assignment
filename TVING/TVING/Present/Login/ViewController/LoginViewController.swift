@@ -41,6 +41,7 @@ final class LoginViewController: UIViewController {
         setaddTarget()
         setDelegate()
         
+        setPasswordShownButtonImage()
     }
     
     @objc func loginButtonDidTap() {
@@ -188,6 +189,24 @@ private extension LoginViewController {
         welcomeViewController.welcomeView.setLabelText(id: idTextField.text)
         self.navigationController?.pushViewController(welcomeViewController, animated: true)
     }
+    
+    func setPasswordShownButtonImage() {
+            eyeButton = UIButton(primaryAction: UIAction( handler: { [self]_ in
+                passwordTextField.isSecureTextEntry.toggle()
+                self.eyeButton.isSelected.toggle()
+            }))
+            
+            var buttonConfig = UIButton.Configuration.plain()
+            buttonConfig.imagePadding = 10
+            buttonConfig.baseBackgroundColor = .clear
+            
+            eyeButton.setImage(UIImage(resource: .icSlasheye), for: .normal)
+            self.eyeButton.setImage(UIImage(resource: .icEye), for: .selected)
+            self.eyeButton.configuration = buttonConfig
+            
+            passwordTextField.rightView = eyeButton
+            passwordTextField.rightViewMode = .always
+        }
 }
 
 // MARK: - UITextFieldDelegate
