@@ -47,7 +47,11 @@ final class LoginViewController: UIViewController {
     @objc func loginButtonDidTap() {
         print("LOGIN BUTTON TAPPED")
         pushToWelcomeVC()
-        loginButton.backgroundColor = .tvingRed
+        // loginButton.backgroundColor = .tvingRed
+    }
+    
+    @objc func nicknameButtonTapped() {
+        print("NICKNAME BUTTON TAPPED")
     }
     
 }
@@ -175,7 +179,7 @@ private extension LoginViewController {
     
     func setaddTarget() {
         loginButton.addTarget(self, action: #selector(loginButtonDidTap), for: .touchUpInside)
-        // nicknameButton.addTarget(self, action: #selector(nicknameButtonTapped), for: .touchUpInside)
+        nicknameButton.addTarget(self, action: #selector(nicknameButtonTapped), for: .touchUpInside)
     }
     
     func setDelegate() {
@@ -207,6 +211,12 @@ private extension LoginViewController {
             passwordTextField.rightView = eyeButton
             passwordTextField.rightViewMode = .always
         }
+    
+    func updateLoginButtonState(isEnabled: Bool, backgroundColor: UIColor, borderColor: UIColor) {
+        loginButton.isEnabled = isEnabled
+        loginButton.backgroundColor = backgroundColor
+        loginButton.layer.borderColor = borderColor.cgColor
+    }
 }
 
 // MARK: - UITextFieldDelegate
@@ -225,6 +235,12 @@ extension LoginViewController: UITextFieldDelegate {
         textField.layer.borderWidth = 0
     }
     
+    // textField 상태에 따라 LoginButton 상태 활성화 유
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        if (idTextField.text?.count ?? 0 < 1) || (passwordTextField.text?.count ?? 0 < 1) {
+            updateLoginButtonState(isEnabled: false, backgroundColor: .tvingBlack, borderColor: .tvingGray4)
+        } else {
+            updateLoginButtonState(isEnabled: true, backgroundColor: .tvingRed, borderColor: .clear)
+        }
+    }
 }
-
-
