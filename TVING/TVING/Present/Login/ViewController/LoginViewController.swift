@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class LoginViewController: UIViewController {
+final class LoginViewController: UIViewController, UISheetPresentationControllerDelegate {
 
     // MARK: - Properties
     
@@ -52,6 +52,7 @@ final class LoginViewController: UIViewController {
     
     @objc func nicknameButtonTapped() {
         print("NICKNAME BUTTON TAPPED")
+        presentToNicknameVC()
     }
     
 }
@@ -187,11 +188,25 @@ private extension LoginViewController {
         idTextField.delegate = self
     }
     
+    // loginButton Click
     func pushToWelcomeVC() {
         let welcomeViewController = WelcomeViewController()
         welcomeViewController.welcomeView.id = idTextField.text
         welcomeViewController.welcomeView.setLabelText(id: idTextField.text)
         self.navigationController?.pushViewController(welcomeViewController, animated: true)
+    }
+    
+    // nicknameButton Click
+    func presentToNicknameVC() {
+        let welcomeViewController = NicknameViewController()
+        welcomeViewController.modalPresentationStyle = .pageSheet
+        
+        if let sheet = welcomeViewController.sheetPresentationController {
+            sheet.detents = [.medium(), .large()]   //지원할 크기 지정
+            sheet.delegate = self   //크기 변하는거 감지
+            sheet.prefersGrabberVisible = true  //시트 상단에 그래버 표시 (기본 값은 false)
+        }
+        present(welcomeViewController, animated: true, completion: nil)
     }
     
     func setPasswordShownButtonImage() {
