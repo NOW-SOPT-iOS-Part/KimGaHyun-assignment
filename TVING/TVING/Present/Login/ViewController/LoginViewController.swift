@@ -205,6 +205,7 @@ private extension LoginViewController {
             sheet.detents = [.medium(), .large()]   //지원할 크기 지정
             sheet.delegate = self   //크기 변하는거 감지
             sheet.prefersGrabberVisible = true  //시트 상단에 그래버 표시 (기본 값은 false)
+            sheet.preferredCornerRadius = 20
         }
         present(welcomeViewController, animated: true, completion: nil)
     }
@@ -257,5 +258,12 @@ extension LoginViewController: UITextFieldDelegate {
         } else {
             updateLoginButtonState(isEnabled: true, backgroundColor: .tvingRed, borderColor: .clear)
         }
+    }
+}
+
+
+extension LoginViewController: DataBindProtocol {
+    func dataBind(nickname: String?) {
+        idTextField.text = "\(nickname ?? "") 님 방가방가 ㅋㅋ "
     }
 }

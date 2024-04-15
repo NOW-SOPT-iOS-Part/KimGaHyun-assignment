@@ -10,31 +10,37 @@ import UIKit
 import SnapKit
 import Then
 
-final class WelcomeViewController: UIViewController {
+protocol DataBindProtocol: AnyObject {
+    func dataBind(nickname: String?)
+}
 
+final class WelcomeViewController: UIViewController {
+    
     // MARK: - Properties
     
+    weak var delegate: DataBindProtocol?
     
     // MARK: - UI Components
     
     let welcomeView = WelcomeView()
     
     // MARK: - Life Cycles
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setStyle()
         setHierarchy()
-        setLayout()
+        
+        bindID()
     }
     
     @objc
     private func backToLoginButtonDidTap() {
-//        if let loginViewController = navigationController?.viewControllers.first(where: { $0 is LoginViewController }) as? LoginViewController {
-//            loginViewController.resetTextField()
-//        }
-        print("TAPPED")
+        if let id = welcomeView.id {
+            delegate?.dataBind(nickname: id)
+        }
+
         if self.navigationController == nil {
             self.dismiss(animated: true)
         } else {
@@ -46,7 +52,6 @@ final class WelcomeViewController: UIViewController {
 // MARK: - Extensions
 
 private extension WelcomeViewController {
-
     func setStyle() {
         view.backgroundColor = .tvingBlack
         welcomeView.goBackToMainButton.addTarget(self, action: #selector(backToLoginButtonDidTap), for: .touchUpInside)
@@ -55,8 +60,11 @@ private extension WelcomeViewController {
     func setHierarchy() {
         view.addSubview(welcomeView)
     }
-    
-    func setLayout() {
+}
 
+extension WelcomeViewController {
+    private func bindID() {
+        guard let idText = welcomeView.id else { return }
+        self.welcomeView.welcomeLabel.text = "\(idText)님 \n반가워요!"
     }
 }

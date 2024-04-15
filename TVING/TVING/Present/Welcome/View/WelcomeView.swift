@@ -19,7 +19,7 @@ final class WelcomeView: UIView {
     // MARK: - UI Components
     
     private let brandImage = UIImageView()
-    private let welcomeLabel = UILabel()
+    let welcomeLabel = UILabel()
     var goBackToMainButton = UIButton()
     
     // MARK: - Life Cycles
@@ -49,7 +49,6 @@ private extension WelcomeView {
         }
         
         welcomeLabel.do {
-            $0.text = "???님 \n반가워요!"
             $0.textColor = .tvingWhite
             $0.font = .pretendardFont(weight: 700, size: 23)
             $0.textAlignment = .center
@@ -61,7 +60,6 @@ private extension WelcomeView {
             $0.setTitle("메인으로", for: .normal)
             $0.setTitleColor(.tvingWhite, for: .normal)
             $0.titleLabel?.font = .pretendardFont(weight: 600, size: 14)
-//            $0.addTarget(self, action: #selector(backToLoginButtonDidTap), for: .touchUpInside)
             $0.layer.cornerRadius = 6
         }
     }

@@ -66,32 +66,33 @@ private extension NicknameViewController {
             $0.setTitle("저장하기", for: .normal)
             $0.setTitleColor(.tvingWhite, for: .normal)
             $0.layer.cornerRadius = 10
+            $0.addTarget(self, action: #selector(backToLoginButtonDidTap), for: .touchUpInside)
         }
     }
     
     func setHierarchy() {
-
         view.addSubviews(titleLabel, nicknameTextField, saveButton)
     }
     
     func setLayout() {
 
         titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(20)
+            $0.top.equalToSuperview().inset(50)
             $0.leading.equalToSuperview().inset(20)
         }
         
         nicknameTextField.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(21)
             $0.leading.equalTo(titleLabel)
-            $0.width.equalTo(335)
+            $0.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(52)
         }
         
         saveButton.snp.makeConstraints {
-            $0.top.equalTo(nicknameTextField.snp.bottom).offset(232)
+            $0.bottom.equalToSuperview().inset(20)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(52)
+            $0.width.equalTo(335)
         }
     }
 }
