@@ -13,6 +13,7 @@ import Then
 final class LoginView: UIView {
 
     // MARK: - Properties
+    
     let loadUnderLine: [NSAttributedString.Key: Any] = [.underlineStyle: NSUnderlineStyle.single.rawValue]
     
     // MARK: - UI Components
@@ -100,7 +101,6 @@ private extension LoginView {
         }
         let attributeString = NSMutableAttributedString(string: StringLiterals.Login.nickname, attributes: loadUnderLine)
         nicknameButton.do {
-            //$0.setTitle(StringLiterals.Login.nickname, for: .normal)
             $0.setAttributedTitle(attributeString, for: .normal)
             $0.setTitleColor(.tvingGray3, for: .normal)
             $0.titleLabel?.font = .pretendardFont(weight: 400, size: 14)
@@ -170,8 +170,5 @@ private extension LoginView {
             $0.leading.equalTo(nonAccountLabel.snp.trailing).offset(17)
             $0.height.equalTo(22)
         }
-        
-        
-
     }
 }

@@ -90,9 +90,3 @@ private extension WelcomeView {
         }
     }
 }
-
-extension WelcomeView {
-    func setLabelText(id: String?) {
-        self.id = id
-    }
-}

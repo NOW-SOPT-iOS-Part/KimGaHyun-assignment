@@ -16,6 +16,8 @@ final class LoginViewController: UIViewController, UISheetPresentationController
     
     let loadUnderLine: [NSAttributedString.Key: Any] = [.underlineStyle: NSUnderlineStyle.single.rawValue]
 
+    var name: String = ""
+    
     // MARK: - UI Components
     
     private let mainLabel = UILabel()
@@ -43,25 +45,12 @@ final class LoginViewController: UIViewController, UISheetPresentationController
         
         setPasswordShownButtonImage()
     }
-    
-    @objc func loginButtonDidTap() {
-        print("LOGIN BUTTON TAPPED")
-        pushToWelcomeVC()
-        // loginButton.backgroundColor = .tvingRed
-    }
-    
-    @objc func nicknameButtonTapped() {
-        print("NICKNAME BUTTON TAPPED")
-        presentToNicknameVC()
-    }
-    
 }
 
 // MARK: - Extensions
 
 private extension LoginViewController {
     func setStyle() {
-        
         mainLabel.do {
             $0.text = StringLiterals.Login.mainTitle
             $0.font = .pretendardFont(weight: 500, size: 23)
@@ -181,6 +170,7 @@ private extension LoginViewController {
     func setaddTarget() {
         loginButton.addTarget(self, action: #selector(loginButtonDidTap), for: .touchUpInside)
         nicknameButton.addTarget(self, action: #selector(nicknameButtonTapped), for: .touchUpInside)
+        //NicknameViewController.saveButton.addTarget(self, action: #selector(saveButtonDidTap), for: .touchUpInside)
     }
     
     func setDelegate() {
@@ -188,45 +178,25 @@ private extension LoginViewController {
         idTextField.delegate = self
     }
     
-    // loginButton Click
-    func pushToWelcomeVC() {
-        let welcomeViewController = WelcomeViewController()
-        welcomeViewController.welcomeView.id = idTextField.text
-        welcomeViewController.welcomeView.setLabelText(id: idTextField.text)
-        self.navigationController?.pushViewController(welcomeViewController, animated: true)
-    }
-    
-    // nicknameButton Click
-    func presentToNicknameVC() {
-        let welcomeViewController = NicknameViewController()
-        welcomeViewController.modalPresentationStyle = .pageSheet
-        
-        if let sheet = welcomeViewController.sheetPresentationController {
-            sheet.detents = [.medium(), .large()]   //지원할 크기 지정
-            sheet.delegate = self   //크기 변하는거 감지
-            sheet.prefersGrabberVisible = true  //시트 상단에 그래버 표시 (기본 값은 false)
-            sheet.preferredCornerRadius = 20
-        }
-        present(welcomeViewController, animated: true, completion: nil)
-    }
+
     
     func setPasswordShownButtonImage() {
-            eyeButton = UIButton(primaryAction: UIAction( handler: { [self]_ in
-                passwordTextField.isSecureTextEntry.toggle()
-                self.eyeButton.isSelected.toggle()
-            }))
-            
-            var buttonConfig = UIButton.Configuration.plain()
-            buttonConfig.imagePadding = 10
-            buttonConfig.baseBackgroundColor = .clear
-            
-            eyeButton.setImage(UIImage(resource: .icSlasheye), for: .normal)
-            self.eyeButton.setImage(UIImage(resource: .icEye), for: .selected)
-            self.eyeButton.configuration = buttonConfig
-            
-            passwordTextField.rightView = eyeButton
-            passwordTextField.rightViewMode = .always
-        }
+        eyeButton = UIButton(primaryAction: UIAction( handler: { [self]_ in
+            passwordTextField.isSecureTextEntry.toggle()
+            self.eyeButton.isSelected.toggle()
+        }))
+        
+        var buttonConfig = UIButton.Configuration.plain()
+        buttonConfig.imagePadding = 10
+        buttonConfig.baseBackgroundColor = .clear
+        
+        eyeButton.setImage(UIImage(resource: .icSlasheye), for: .normal)
+        self.eyeButton.setImage(UIImage(resource: .icEye), for: .selected)
+        self.eyeButton.configuration = buttonConfig
+        
+        passwordTextField.rightView = eyeButton
+        passwordTextField.rightViewMode = .always
+    }
     
     func updateLoginButtonState(isEnabled: Bool, backgroundColor: UIColor, borderColor: UIColor) {
         loginButton.isEnabled = isEnabled
@@ -261,9 +231,54 @@ extension LoginViewController: UITextFieldDelegate {
     }
 }
 
+extension LoginViewController {
+    
+    // @objc func
+    
+    @objc func loginButtonDidTap() {
+        print("LOGIN BUTTON TAPPED")
+        pushToWelcomeVC()
+    }
+    
+    
+    @objc func nicknameButtonTapped() {
+        print("NICKNAME BUTTON TAPPED")
+        presentToNicknameVC()
+    }
+    
+    // loginButton Click
+    func pushToWelcomeVC() {
+        let welcomeViewController = WelcomeViewController()
+        if name == "" {
+            welcomeViewController.bindData(idTextField.text ?? "")
+        } else {
+            welcomeViewController.bindData(name)
+        }
+        self.navigationController?.pushViewController(welcomeViewController, animated: true)
+    }
+    
+    
+    // nicknameButton Click
+    func presentToNicknameVC() {
+        let nicknameViewController = NicknameViewController()
+        nicknameViewController.modalPresentationStyle = .pageSheet
+        
+        if let sheet = nicknameViewController.sheetPresentationController {
+            sheet.detents = [.medium(), .large()]   //지원할 크기 지정
+            sheet.delegate = self   //크기 변하는거 감지
+            sheet.prefersGrabberVisible = true  //시트 상단에 그래버 표시 (기본 값은 false)
+            sheet.preferredCornerRadius = 20
+        }
+        nicknameViewController.delegate = self
+        nicknameViewController.dataBind(self.name)
+        present(nicknameViewController, animated: true, completion: nil)
+        
+    }
+}
 
-extension LoginViewController: DataBindProtocol {
-    func dataBind(nickname: String?) {
-        idTextField.text = "\(nickname ?? "") 님 방가방가 ㅋㅋ "
+
+extension LoginViewController: NickNameDelegate {
+    func bindNickName(nickname: String) {
+        self.name = nickname
     }
 }

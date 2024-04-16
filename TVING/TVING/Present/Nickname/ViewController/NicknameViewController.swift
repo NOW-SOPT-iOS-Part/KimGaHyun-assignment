@@ -10,16 +10,21 @@ import UIKit
 import SnapKit
 import Then
 
+protocol NickNameDelegate: AnyObject {
+    func bindNickName(nickname: String)
+}
+
 final class NicknameViewController: UIViewController {
 
     // MARK: - Properties
     
+    weak var delegate: NickNameDelegate?
     
     // MARK: - UI Components
     
     private let titleLabel = UILabel()
-    private let nicknameTextField = UITextField()
-    private let saveButton = UIButton()
+    let nicknameTextField = UITextField()
+    let saveButton = UIButton()
     
     // MARK: - Life Cycles
 
@@ -31,13 +36,17 @@ final class NicknameViewController: UIViewController {
         setLayout()
     }
     
-    @objc
-    private func backToLoginButtonDidTap() {
-        print("TAPPED")
-        if self.navigationController == nil {
+    @objc func saveButtonDidTap() {
+        print("SAVE BUTTON TAPPED")
+        if let nickname = nicknameTextField.text {
+            delegate?.bindNickName(nickname: nickname)
             self.dismiss(animated: true)
-        } else {
-            self.navigationController?.popViewController(animated: true)
+        }
+    }
+    
+    func dataBind(_ name: String) {
+        if name != "" {
+            nicknameTextField.text = name
         }
     }
 }
@@ -66,7 +75,7 @@ private extension NicknameViewController {
             $0.setTitle("저장하기", for: .normal)
             $0.setTitleColor(.tvingWhite, for: .normal)
             $0.layer.cornerRadius = 10
-            $0.addTarget(self, action: #selector(backToLoginButtonDidTap), for: .touchUpInside)
+            $0.addTarget(self, action: #selector(saveButtonDidTap), for: .touchUpInside)
         }
     }
     
@@ -75,7 +84,6 @@ private extension NicknameViewController {
     }
     
     func setLayout() {
-
         titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(50)
             $0.leading.equalToSuperview().inset(20)

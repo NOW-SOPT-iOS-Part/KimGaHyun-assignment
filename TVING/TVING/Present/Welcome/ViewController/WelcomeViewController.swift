@@ -10,15 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-protocol DataBindProtocol: AnyObject {
-    func dataBind(nickname: String?)
-}
-
 final class WelcomeViewController: UIViewController {
-    
-    // MARK: - Properties
-    
-    weak var delegate: DataBindProtocol?
     
     // MARK: - UI Components
     
@@ -31,16 +23,10 @@ final class WelcomeViewController: UIViewController {
         
         setStyle()
         setHierarchy()
-        
-        bindID()
     }
     
     @objc
     private func backToLoginButtonDidTap() {
-        if let id = welcomeView.id {
-            delegate?.dataBind(nickname: id)
-        }
-
         if self.navigationController == nil {
             self.dismiss(animated: true)
         } else {
@@ -63,8 +49,7 @@ private extension WelcomeViewController {
 }
 
 extension WelcomeViewController {
-    private func bindID() {
-        guard let idText = welcomeView.id else { return }
-        self.welcomeView.welcomeLabel.text = "\(idText)님 \n반가워요!"
+    func bindData(_ name: String) {
+        welcomeView.welcomeLabel.text = "\(name) 님\n반가워요!"
     }
 }
