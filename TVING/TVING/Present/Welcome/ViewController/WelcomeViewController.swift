@@ -18,38 +18,35 @@ final class WelcomeViewController: UIViewController {
     
     // MARK: - Life Cycles
     
+    override func loadView() {
+        self.view = welcomeView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setStyle()
-        setHierarchy()
-    }
-    
-    @objc
-    private func backToLoginButtonDidTap() {
-        if self.navigationController == nil {
-            self.dismiss(animated: true)
-        } else {
-            self.navigationController?.popViewController(animated: true)
-        }
+        setaddTarget()
     }
 }
 
 // MARK: - Extensions
 
 private extension WelcomeViewController {
-    func setStyle() {
-        view.backgroundColor = .tvingBlack
+    func setaddTarget() {
         welcomeView.goBackToMainButton.addTarget(self, action: #selector(backToLoginButtonDidTap), for: .touchUpInside)
-    }
-    
-    func setHierarchy() {
-        view.addSubview(welcomeView)
     }
 }
 
 extension WelcomeViewController {
     func bindData(_ name: String) {
         welcomeView.welcomeLabel.text = "\(name) 님\n반가워요!"
+    }
+    
+    @objc func backToLoginButtonDidTap() {
+        if self.navigationController == nil {
+            self.dismiss(animated: true)
+        } else {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
 }
