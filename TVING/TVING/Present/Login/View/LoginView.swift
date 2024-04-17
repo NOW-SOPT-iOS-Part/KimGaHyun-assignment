@@ -28,7 +28,7 @@ final class LoginView: UIView {
     let nicknameButton = UIButton()
     
     var eyeButton = UIButton(type: .custom)
-    private let clearButton = UIButton()
+    let clearButton = UIButton()
     
     // MARK: - Life Cycles
     
@@ -38,7 +38,6 @@ final class LoginView: UIView {
         setStyle()
         setHierarchy()
         setLayout()
-        setPasswordShownButtonImage()
     }
     
     @available(*, unavailable)
@@ -59,6 +58,7 @@ private extension LoginView {
         }
         
         idTextField.placeholder = StringLiterals.Login.idTextField
+        idTextField.clearButtonMode = .whileEditing
         passwordTextField.placeholder = StringLiterals.Login.passwordTextField
         passwordTextField.isSecureTextEntry = true
         
@@ -70,10 +70,26 @@ private extension LoginView {
                 $0.backgroundColor = .tvingGray4
                 $0.layer.cornerRadius = 3
                 $0.addPadding(left: 17)
-                $0.clearButtonMode = .whileEditing
             }
         }
         
+        clearButton.do {
+            $0.setImage(UIImage(resource: .icCancle), for: .normal)
+        }
+        
+        eyeButton = UIButton(primaryAction: UIAction( handler: { [self]_ in
+            passwordTextField.isSecureTextEntry.toggle()
+            self.eyeButton.isSelected.toggle()
+        }))
+        
+        var buttonConfig = UIButton.Configuration.plain()
+        buttonConfig.imagePadding = 5
+        buttonConfig.baseBackgroundColor = .clear
+
+        eyeButton.setImage(UIImage(resource: .icSlasheye), for: .normal)
+        self.eyeButton.setImage(UIImage(resource: .icEye), for: .selected)
+        eyeButton.configuration = buttonConfig
+
         loginButton.do {
             $0.setTitle(StringLiterals.Login.loginBtn, for: .normal)
             $0.setTitleColor(.tvingGray2, for: .normal)
@@ -110,7 +126,7 @@ private extension LoginView {
     }
     
     func setHierarchy() {
-        addSubviews(mainLabel, idTextField, passwordTextField, loginButton, idFindButton, passwordFindButton, nonAccountLabel, nicknameButton)
+        addSubviews(mainLabel, idTextField, passwordTextField, clearButton, eyeButton, loginButton, idFindButton, passwordFindButton, nonAccountLabel, nicknameButton)
     }
     
     func setLayout() {
@@ -124,6 +140,16 @@ private extension LoginView {
         }
         passwordTextField.snp.makeConstraints {
             $0.top.equalTo(idTextField.snp.bottom).offset(7)
+        }
+        
+        eyeButton.snp.makeConstraints {
+            $0.top.equalTo(passwordTextField.snp.top).inset(12)
+            $0.trailing.equalTo(passwordTextField.snp.trailing).inset(13)
+        }
+        
+        clearButton.snp.makeConstraints {
+            $0.top.equalTo(passwordTextField.snp.top).inset(18)
+            $0.trailing.equalTo(passwordTextField.snp.trailing).inset(56)
         }
         
         loginButton.snp.makeConstraints {
@@ -160,23 +186,5 @@ private extension LoginView {
             $0.height.equalTo(22)
             $0.width.equalTo(128)
         }
-    }
-    
-    func setPasswordShownButtonImage() {
-        eyeButton = UIButton(primaryAction: UIAction( handler: { [self]_ in
-            passwordTextField.isSecureTextEntry.toggle()
-            self.eyeButton.isSelected.toggle()
-        }))
-        
-        var buttonConfig = UIButton.Configuration.plain()
-        buttonConfig.imagePadding = 10
-        buttonConfig.baseBackgroundColor = .clear
-        
-        eyeButton.setImage(UIImage(resource: .icSlasheye), for: .normal)
-        self.eyeButton.setImage(UIImage(resource: .icEye), for: .selected)
-        self.eyeButton.configuration = buttonConfig
-        
-        passwordTextField.rightView = eyeButton
-        passwordTextField.rightViewMode = .always
     }
 }

@@ -40,6 +40,7 @@ private extension LoginViewController {
     func setaddTarget() {
         loginView.loginButton.addTarget(self, action: #selector(loginButtonDidTap), for: .touchUpInside)
         loginView.nicknameButton.addTarget(self, action: #selector(nicknameButtonTapped), for: .touchUpInside)
+        loginView.clearButton.addTarget(self, action: #selector(clearButtonTapped), for: .touchUpInside)
     }
     
     func setDelegate() {
@@ -92,6 +93,10 @@ extension LoginViewController {
     @objc func nicknameButtonTapped() {
         print("NICKNAME BUTTON TAPPED")
         presentToNicknameVC()
+    }
+    
+    @objc func clearButtonTapped() {
+        loginView.passwordTextField.text = ""
     }
     
     // loginButton Click
