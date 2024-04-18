@@ -39,7 +39,7 @@ private extension WelcomeViewController {
 
 extension WelcomeViewController {
     func bindData(_ name: String) {
-        welcomeView.welcomeLabel.text = "\(name) 님\n반가워요!"
+        welcomeView.welcomeLabel.text = "\(name) 님\n반가워요!🩷"
     }
     
     @objc func backToLoginButtonDidTap() {

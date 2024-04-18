@@ -53,7 +53,8 @@ private extension NicknameView {
         }
         
         saveButton.do {
-            $0.backgroundColor = .tvingRed
+            $0.backgroundColor = .tvingGray2
+            $0.isEnabled = false
             $0.setTitle("저장하기", for: .normal)
             $0.setTitleColor(.tvingWhite, for: .normal)
             $0.layer.cornerRadius = 10

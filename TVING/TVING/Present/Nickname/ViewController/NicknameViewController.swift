@@ -34,14 +34,42 @@ final class NicknameViewController: UIViewController {
         super.viewDidLoad()
         
         setaddTarget()
+        setDelegate()
     }
 }
 
 // MARK: - Extensions
 
 private extension NicknameViewController {
+    func setDelegate() {
+        nicknameView.nicknameTextField.delegate = self
+    }
     func setaddTarget() {
         nicknameView.saveButton.addTarget(self, action: #selector(saveButtonDidTap), for: .touchUpInside)
+    }
+}
+
+extension NicknameViewController: UITextFieldDelegate {
+    // 한글만 가능하게
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+           let titleCharacter = string.cString(using: .utf8)
+           let isBackSpace = strcmp(titleCharacter, "\\b")
+           if string.hasCharacters() || isBackSpace == -92 {
+               return true
+           }
+           return false
+       }
+    
+    
+    // textField 상태에 따라 saveButton 상태 활성화 유무
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        if nicknameView.nicknameTextField.text?.count ?? 0 < 1 {
+            nicknameView.saveButton.isEnabled = false
+            nicknameView.saveButton.backgroundColor = .tvingGray2
+        } else {
+            nicknameView.saveButton.isEnabled = true
+            nicknameView.saveButton.backgroundColor = .tvingRed
+        }
     }
 }
 
@@ -59,5 +87,4 @@ extension NicknameViewController {
             self.dismiss(animated: true)
         }
     }
-    
 }

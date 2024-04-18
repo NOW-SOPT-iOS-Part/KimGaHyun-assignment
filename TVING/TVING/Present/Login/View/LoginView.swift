@@ -87,7 +87,7 @@ private extension LoginView {
         buttonConfig.baseBackgroundColor = .clear
 
         eyeButton.setImage(UIImage(resource: .icSlasheye), for: .normal)
-        self.eyeButton.setImage(UIImage(resource: .icEye), for: .selected)
+        eyeButton.setImage(UIImage(resource: .icEye), for: .selected)
         eyeButton.configuration = buttonConfig
 
         loginButton.do {
