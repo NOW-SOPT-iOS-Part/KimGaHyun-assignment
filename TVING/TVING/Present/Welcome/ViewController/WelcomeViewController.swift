@@ -25,14 +25,14 @@ final class WelcomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setaddTarget()
+        setAddTarget()
     }
 }
 
 // MARK: - Extensions
 
 private extension WelcomeViewController {
-    func setaddTarget() {
+    func setAddTarget() {
         welcomeView.goBackToMainButton.addTarget(self, action: #selector(backToLoginButtonDidTap), for: .touchUpInside)
     }
 }

@@ -29,7 +29,7 @@ final class LoginViewController: UIViewController, UISheetPresentationController
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setaddTarget()
+        setAddTarget()
         setDelegate()
     }
 }
@@ -37,7 +37,7 @@ final class LoginViewController: UIViewController, UISheetPresentationController
 // MARK: - Extensions
 
 private extension LoginViewController {
-    func setaddTarget() {
+    func setAddTarget() {
         loginView.loginButton.addTarget(self, action: #selector(loginButtonDidTap), for: .touchUpInside)
         loginView.nicknameButton.addTarget(self, action: #selector(nicknameButtonTapped), for: .touchUpInside)
         loginView.clearButton.addTarget(self, action: #selector(clearButtonTapped), for: .touchUpInside)

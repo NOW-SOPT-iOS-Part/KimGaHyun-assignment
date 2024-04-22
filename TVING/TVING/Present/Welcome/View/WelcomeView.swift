@@ -11,11 +11,7 @@ import SnapKit
 import Then
 
 final class WelcomeView: UIView {
-    
-    // MARK: - Properties
-    
-    var id: String?
-    
+
     // MARK: - UI Components
     
     private let brandImage = UIImageView()

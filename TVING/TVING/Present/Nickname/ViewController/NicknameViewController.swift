@@ -33,7 +33,7 @@ final class NicknameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setaddTarget()
+        setAddTarget()
         setDelegate()
     }
 }
@@ -44,7 +44,7 @@ private extension NicknameViewController {
     func setDelegate() {
         nicknameView.nicknameTextField.delegate = self
     }
-    func setaddTarget() {
+    func setAddTarget() {
         nicknameView.saveButton.addTarget(self, action: #selector(saveButtonDidTap), for: .touchUpInside)
     }
 }
