@@ -5,4 +5,74 @@
 //  Created by Gahyun Kim on 2024/04/22.
 //
 
-import Foundation
+import UIKit
+
+import SnapKit
+import Then
+
+final class HomeHeaderCollectionView: UICollectionReusableView {
+    
+    // MARK: - Properties
+    
+    private let titleLabel = UILabel()
+    private let totalButton = UIButton()
+    
+    // MARK: - Life Cycle
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        self.backgroundColor = .clear
+        setView()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    func setView() {
+        setupStyle()
+        setupHierarchy()
+        setupLayout()
+    }
+}
+
+
+private extension HomeHeaderCollectionView {
+    
+    func setupStyle() {
+        titleLabel.do {
+            $0.font = .pretendardFont(weight: 600, size: 15)
+            $0.textColor = .tvingWhite
+        }
+        
+        totalButton.do {
+            $0.setTitle("전체보기", for: .normal)
+            $0.setTitleColor(.tvingGray3, for: .normal)
+            $0.titleLabel?.font = .pretendardFont(weight: 500, size: 11)
+        }
+    }
+    
+    func setupHierarchy() {
+        addSubviews(titleLabel, totalButton)
+    }
+    
+    func setupLayout() {
+        titleLabel.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.equalToSuperview().inset(10)
+        }
+        
+        totalButton.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.top)
+            $0.trailing.equalToSuperview().inset(10)
+        }
+    }
+}
+
+extension HomeHeaderCollectionView {
+    // Header Title Label 별 text 다르게
+    func configureHeader(forTitle: String) {
+        titleLabel.text = forTitle
+    }
+}
