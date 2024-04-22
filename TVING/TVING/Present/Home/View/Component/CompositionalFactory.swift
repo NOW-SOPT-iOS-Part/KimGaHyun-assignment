@@ -21,7 +21,7 @@ enum CompositionalFactory {
             case 2:
                 section = tvingLiveChannel()
             case 3:
-                section = tvingPopularSeries()
+                section = tvingMustContents()
             case 4:
                 section = tvingBaseBall()
             default:

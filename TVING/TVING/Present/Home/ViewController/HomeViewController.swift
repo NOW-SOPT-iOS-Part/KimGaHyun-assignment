@@ -80,7 +80,7 @@ extension HomeViewController: UICollectionViewDelegate {
 
 extension HomeViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 3
+        return 4
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -92,7 +92,7 @@ extension HomeViewController: UICollectionViewDataSource {
         case 2:
             return 3
         case 3:
-            return 5
+            return 4
         default:
             return 0
         }
@@ -119,6 +119,11 @@ extension HomeViewController: UICollectionViewDataSource {
             cell.bindData(forModel: liveChannelData[indexPath.item])
             return cell
             
+        case 3:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCollectionViewCell.className,
+                                                                         for: indexPath) as? MovieCollectionViewCell else { return UICollectionViewCell() }
+            cell.bindData(forModel: movieData[indexPath.item])
+            return cell
         default:
             guard let cell = homeView.collectionView.dequeueReusableCell(withReuseIdentifier: MovieCollectionViewCell.identifier,
                                                                          for: indexPath) as? MovieCollectionViewCell else { return UICollectionViewCell() }
