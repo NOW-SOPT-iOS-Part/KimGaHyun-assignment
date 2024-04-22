@@ -22,7 +22,7 @@ final class HomeView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+        setupStyle()
         setupHierarchy()
         setupLayout()
     }
@@ -36,13 +36,13 @@ final class HomeView: UIView {
 // MARK: - Extensions
 
 private extension HomeView {
-    // MARK: - set Hierarchy
+    func setupStyle() {
+        collectionView.backgroundColor = .tvingBlack
+    }
     
     func setupHierarchy() {
         self.addSubview(collectionView)
     }
-    
-    // MARK: - set Layout
     
      func setupLayout() {
         collectionView.snp.makeConstraints {

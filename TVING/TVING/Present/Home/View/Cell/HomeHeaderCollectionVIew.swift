@@ -59,12 +59,12 @@ private extension HomeHeaderCollectionView {
     
     func setupLayout() {
         titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview()
+            $0.bottom.equalToSuperview()
             $0.leading.equalToSuperview().inset(10)
         }
         
         totalButton.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.top)
+            $0.bottom.equalTo(titleLabel.snp.bottom)
             $0.trailing.equalToSuperview().inset(10)
         }
     }

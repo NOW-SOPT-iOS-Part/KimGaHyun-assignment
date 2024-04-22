@@ -8,15 +8,27 @@
 import UIKit
 
 struct HomeModel {
+    let mainMovieList: [MainMovieList]
     let movieList: [MovieList]
 }
 
+struct MainMovieList {
+    let mainMovieImg: UIImage
+}
 
 struct MovieList {
     let movieImg: UIImage
     let movieTitle: String
 }
 
+
+extension MainMovieList {
+    static func dummy() -> [MainMovieList] {
+        return [
+            MainMovieList(mainMovieImg: .imgMovie5)
+        ]
+    }
+}
 extension MovieList {
     static func dummy() -> [MovieList] {
         return [
