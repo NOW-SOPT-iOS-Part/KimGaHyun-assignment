@@ -103,8 +103,8 @@ enum CompositionalFactory {
     // MARK: - '인기 LIVE 채널' 에 대한 Layout
 
     static func tvingLiveChannel() -> NSCollectionLayoutSection {
-        let itemFractionalWidthFraction = 1.0
-        let itemInset: CGFloat = 7
+        let itemFractionalWidthFraction = 1.0 / 3.0
+        let itemInset: CGFloat = 5
 
         // item
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(itemFractionalWidthFraction),
@@ -116,16 +116,15 @@ enum CompositionalFactory {
                                                      trailing: itemInset)
 
         // group
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .estimated(600)
-        )
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize,
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(2.1),
+                                               heightDimension: .estimated(140))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                      subitem: item,
                                                      count: 5)
 
         // section
         let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuous
         section.contentInsets = NSDirectionalEdgeInsets(top: itemInset,
                                                         leading: itemInset,
                                                         bottom: itemInset,

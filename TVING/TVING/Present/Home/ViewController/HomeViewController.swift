@@ -16,6 +16,7 @@ final class HomeViewController: UIViewController {
     
     private var mainMovieData = MainMovieList.dummy()
     private var movieData = MovieList.dummy()
+    private var liveChannelData = LiveChannelList.dummy()
     
     // MARK: - UI Components
     
@@ -58,7 +59,8 @@ private extension HomeViewController {
                         forCellWithReuseIdentifier: MainCollectionViewCell.className)
             $0.register(MovieCollectionViewCell.self,
                         forCellWithReuseIdentifier: MovieCollectionViewCell.className)
-            
+            $0.register(PopularLiveCollectionViewCell.self,
+                        forCellWithReuseIdentifier: PopularLiveCollectionViewCell.className)
             
             // header
             $0.register(HomeHeaderCollectionView.self,
@@ -78,7 +80,7 @@ extension HomeViewController: UICollectionViewDelegate {
 
 extension HomeViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
+        return 3
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -88,7 +90,7 @@ extension HomeViewController: UICollectionViewDataSource {
         case 1:
             return 4
         case 2:
-            return 5
+            return 3
         case 3:
             return 5
         default:
@@ -99,16 +101,22 @@ extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch indexPath.section {
         case 0:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.identifier,
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.className,
                                                                 for: indexPath) as? MainCollectionViewCell else { return UICollectionViewCell() }
             
             cell.bindData(forModel: mainMovieData[indexPath.item])
             
             return cell
         case 1:
-            guard let cell = homeView.collectionView.dequeueReusableCell(withReuseIdentifier: MovieCollectionViewCell.identifier,
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCollectionViewCell.className,
                                                                          for: indexPath) as? MovieCollectionViewCell else { return UICollectionViewCell() }
             cell.bindData(forModel: movieData[indexPath.item])
+            return cell
+        
+        case 2:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PopularLiveCollectionViewCell.className,
+                                                                         for: indexPath) as? PopularLiveCollectionViewCell else { return UICollectionViewCell() }
+            cell.bindData(forModel: liveChannelData[indexPath.item])
             return cell
             
         default:
@@ -145,7 +153,7 @@ extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.size.width, height: 40)
+        return CGSize(width: UIScreen.main.bounds.size.width, height: 45)
     }
 }
 
