@@ -16,16 +16,12 @@ enum CompositionalFactory {
             switch sectionNumber {
             case 0:
                 section = tvingMainSection()
-            case 1:
-                section = tvingMustContents()
             case 2:
                 section = tvingLiveChannel()
-            case 3:
-                section = tvingMustContents()
             case 4:
                 section = tvingBaseBall()
             default:
-                section = tvingMainSection()
+                section = tvingMustContents()
             }
             return section
         }
@@ -79,7 +75,7 @@ enum CompositionalFactory {
         
         // group
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-                                               heightDimension: .absolute(150))
+                                               heightDimension: .absolute(155))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                        subitems: [item])
         
@@ -101,11 +97,11 @@ enum CompositionalFactory {
     }
     
     // MARK: - '인기 LIVE 채널' 에 대한 Layout
-
+    
     static func tvingLiveChannel() -> NSCollectionLayoutSection {
         let itemFractionalWidthFraction = 1.0 / 3.0
-        let itemInset: CGFloat = 5
-
+        let itemInset: CGFloat = 1
+        
         // item
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(itemFractionalWidthFraction),
                                               heightDimension: .fractionalHeight(1))
@@ -114,14 +110,14 @@ enum CompositionalFactory {
                                                      leading: itemInset,
                                                      bottom: itemInset,
                                                      trailing: itemInset)
-
+        
         // group
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(2.1),
                                                heightDimension: .estimated(140))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-                                                     subitem: item,
-                                                     count: 5)
-
+                                                       subitem: item,
+                                                       count: 5)
+        
         // section
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
@@ -129,48 +125,7 @@ enum CompositionalFactory {
                                                         leading: itemInset,
                                                         bottom: itemInset,
                                                         trailing: itemInset)
-
-        // Header, Footer
-        section.boundarySupplementaryItems = [
-            NSCollectionLayoutBoundarySupplementaryItem(layoutSize: .init(widthDimension: .fractionalWidth(1),
-                                                                          heightDimension: .absolute(50)),
-                                                        elementKind: UICollectionView.elementKindSectionHeader,
-                                                        alignment: .top)]
-        return section
-    }
-
-    // MARK: - '1화 무료! 파라마운트 + 인기 시리즈' 에 대한 Layout
-
-    static func tvingPopularSeries() -> NSCollectionLayoutSection {
-        let itemFractionalWidthFraction = 1.0 / 3.0
-        let itemInset: CGFloat = 7
-
-        // item
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(itemFractionalWidthFraction),
-            heightDimension: .fractionalHeight(1)
-        )
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: itemInset,
-                                                     leading: itemInset,
-                                                     bottom: itemInset,
-                                                     trailing: itemInset)
-
-        // group
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .estimated(115)
-        )
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-                                                       subitems: [item])
-
-        // section
-        let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: itemInset,
-                                                        leading: itemInset,
-                                                        bottom: itemInset,
-                                                        trailing: itemInset)
-
+        
         // Header
         section.boundarySupplementaryItems = [
             NSCollectionLayoutBoundarySupplementaryItem(layoutSize: .init(widthDimension: .fractionalWidth(1),
@@ -179,80 +134,47 @@ enum CompositionalFactory {
                                                         alignment: .top)]
         return section
     }
-
-
+    
     // MARK: - 야구 배너 에 대한 Layout
-
+    
     static func tvingBaseBall() -> NSCollectionLayoutSection {
-        let itemFractionalWidthFraction = 1.0 / 3.0
-        let itemInset: CGFloat = 7
-
+        let itemFractionalWidthFraction = 1.0 / 2.0
+        let itemInset: CGFloat = 1
+        
         // item
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(itemFractionalWidthFraction),
-            heightDimension: .fractionalHeight(1)
-        )
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                              heightDimension: .estimated(58))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: itemInset,
                                                      leading: itemInset,
                                                      bottom: itemInset,
                                                      trailing: itemInset)
-
+        
         // group
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .estimated(115)
-        )
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                               heightDimension: .estimated(58))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                        subitems: [item])
-
+        
         // section
         let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuous
         section.contentInsets = NSDirectionalEdgeInsets(top: itemInset,
                                                         leading: itemInset,
                                                         bottom: itemInset,
                                                         trailing: itemInset)
-        return section
-    }
-
-    // MARK: - '마술보다 더 신비로운 영화(신비로운 영화사전님)' 에 대한 Layout
-
-    static func tvingMagicMovie() -> NSCollectionLayoutSection {
-        let itemFractionalWidthFraction = 1.0 / 3.0
-        let itemInset: CGFloat = 7
-
-        // item
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(itemFractionalWidthFraction),
-            heightDimension: .fractionalHeight(1)
-        )
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: itemInset,
-                                                     leading: itemInset,
-                                                     bottom: itemInset,
-                                                     trailing: itemInset)
-
-        // group
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .estimated(115)
-        )
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-                                                       subitems: [item])
-
-        // section
-        let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: itemInset,
-                                                        leading: itemInset,
-                                                        bottom: itemInset,
-                                                        trailing: itemInset)
-
+        
         // Header
         section.boundarySupplementaryItems = [
             NSCollectionLayoutBoundarySupplementaryItem(layoutSize: .init(widthDimension: .fractionalWidth(1),
                                                                           heightDimension: .absolute(50)),
                                                         elementKind: UICollectionView.elementKindSectionHeader,
-                                                        alignment: .top)]
+                                                        alignment: .top),
+            NSCollectionLayoutBoundarySupplementaryItem(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                                                          heightDimension: .absolute(17)),
+                                                        elementKind: UICollectionView.elementKindSectionFooter,
+                                                        alignment: .bottom)]
+        
         return section
     }
 }

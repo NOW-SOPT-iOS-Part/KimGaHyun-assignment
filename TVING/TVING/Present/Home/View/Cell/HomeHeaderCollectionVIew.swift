@@ -47,7 +47,7 @@ private extension HomeHeaderCollectionView {
         }
         
         totalButton.do {
-            $0.setTitle("전체보기", for: .normal)
+            $0.setTitle("전체보기 >", for: .normal)
             $0.setTitleColor(.tvingGray3, for: .normal)
             $0.titleLabel?.font = .pretendardFont(weight: 500, size: 11)
         }
@@ -60,7 +60,7 @@ private extension HomeHeaderCollectionView {
     func setupLayout() {
         titleLabel.snp.makeConstraints {
             $0.bottom.equalToSuperview()
-            $0.leading.equalToSuperview().inset(10)
+            $0.leading.equalToSuperview().inset(5)
         }
         
         totalButton.snp.makeConstraints {
@@ -74,5 +74,9 @@ extension HomeHeaderCollectionView {
     // Header Title Label 별 text 다르게
     func configureHeader(forTitle: String) {
         titleLabel.text = forTitle
+    }
+    
+    func resetButton() {
+        totalButton.isHidden = true
     }
 }

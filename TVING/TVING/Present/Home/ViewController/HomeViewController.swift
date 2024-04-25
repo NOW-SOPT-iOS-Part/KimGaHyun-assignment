@@ -61,11 +61,16 @@ private extension HomeViewController {
                         forCellWithReuseIdentifier: MovieCollectionViewCell.className)
             $0.register(PopularLiveCollectionViewCell.self,
                         forCellWithReuseIdentifier: PopularLiveCollectionViewCell.className)
+            $0.register(BaseballCollectionViewCell.self,
+                        forCellWithReuseIdentifier: BaseballCollectionViewCell.className)
             
             // header
             $0.register(HomeHeaderCollectionView.self,
                         forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                         withReuseIdentifier: HomeHeaderCollectionView.className)
+            $0.register(EmptyReusableCollectionView.self,
+                        forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+                        withReuseIdentifier: EmptyReusableCollectionView.className)
         }
     }
     
@@ -80,7 +85,7 @@ extension HomeViewController: UICollectionViewDelegate {
 
 extension HomeViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 4
+        return 6
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -92,6 +97,10 @@ extension HomeViewController: UICollectionViewDataSource {
         case 2:
             return 3
         case 3:
+            return 4
+        case 4:
+            return 2
+        case 5:
             return 4
         default:
             return 0
@@ -109,20 +118,19 @@ extension HomeViewController: UICollectionViewDataSource {
             return cell
         case 1:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCollectionViewCell.className,
-                                                                         for: indexPath) as? MovieCollectionViewCell else { return UICollectionViewCell() }
+                                                                for: indexPath) as? MovieCollectionViewCell else { return UICollectionViewCell() }
             cell.bindData(forModel: movieData[indexPath.item])
             return cell
-        
+            
         case 2:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PopularLiveCollectionViewCell.className,
-                                                                         for: indexPath) as? PopularLiveCollectionViewCell else { return UICollectionViewCell() }
+                                                                for: indexPath) as? PopularLiveCollectionViewCell else { return UICollectionViewCell() }
             cell.bindData(forModel: liveChannelData[indexPath.item])
             return cell
             
-        case 3:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCollectionViewCell.className,
-                                                                         for: indexPath) as? MovieCollectionViewCell else { return UICollectionViewCell() }
-            cell.bindData(forModel: movieData[indexPath.item])
+        case 4:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BaseballCollectionViewCell.className,
+                                                                for: indexPath) as? BaseballCollectionViewCell else { return UICollectionViewCell() }
             return cell
         default:
             guard let cell = homeView.collectionView.dequeueReusableCell(withReuseIdentifier: MovieCollectionViewCell.identifier,
@@ -137,21 +145,34 @@ extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         viewForSupplementaryElementOfKind kind: String,
                         at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                           withReuseIdentifier: HomeHeaderCollectionView.className,
-                                                                           for: indexPath) as? HomeHeaderCollectionView else { return UICollectionReusableView() }
-        switch indexPath.section {
-        case 1:
-            header.configureHeader(forTitle: "티빙에서 꼭 봐야하는 콘텐츠")
-        case 2:
-            header.configureHeader(forTitle: "인기 LIVE 채널")
-        case 3:
-            header.configureHeader(forTitle: "1화 무료! 파라마운트+ 인기시리즈")
-        case 5:
-            header.configureHeader(forTitle: "마술보다 더 신비로운 영화(신비로운 영화사전님)")
-        default: break
+        switch kind {
+        case UICollectionView.elementKindSectionHeader:
+            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                               withReuseIdentifier: HomeHeaderCollectionView.className,
+                                                                               for: indexPath) as? HomeHeaderCollectionView else { return UICollectionReusableView()}
+            switch indexPath.section {
+            case 1:
+                header.configureHeader(forTitle: "티빙에서 꼭 봐야하는 콘텐츠")
+            case 2:
+                header.configureHeader(forTitle: "인기 LIVE 채널")
+            case 3:
+                header.configureHeader(forTitle: "1화 무료! 파라마운트+ 인기시리즈")
+            case 4:
+                header.configureHeader(forTitle: "")
+                header.resetButton()
+            case 5:
+                header.configureHeader(forTitle: "마술보다 더 신비로운 영화(신비로운 영화사전님)")
+            default: break
+            }
+            return header
+        case UICollectionView.elementKindSectionFooter:
+            guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                               withReuseIdentifier: EmptyReusableCollectionView.className,
+                                                                               for: indexPath) as? EmptyReusableCollectionView else { return UICollectionReusableView() }
+            return footer
+        default:
+            return UICollectionReusableView()
         }
-        return header
     }
     
     // Header 크기 지정
@@ -159,6 +180,13 @@ extension HomeViewController: UICollectionViewDataSource {
                         layout collectionViewLayout: UICollectionViewLayout,
                         referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.size.width, height: 45)
+    }
+    
+    // Footer 크기 지정
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        referenceSizeForFooterInSection section: Int) -> CGSize {
+        return CGSize(width: UIScreen.main.bounds.width, height: 40)
     }
 }
 
