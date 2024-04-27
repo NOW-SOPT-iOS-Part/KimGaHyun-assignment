@@ -12,12 +12,11 @@ import Then
 
 final class MainCollectionViewCell: UICollectionViewCell {
     
-    static let identifier = "MainCollectionViewCell"
     
     // MARK: - UI Components
     
     private let movieImage = UIImageView()
-
+    private let pageControl = UIPageControl()
     
     // MARK: - Life Cycle
     
@@ -47,15 +46,23 @@ final class MainCollectionViewCell: UICollectionViewCell {
 private extension MainCollectionViewCell {
     func setupStyle() {
         self.backgroundColor = .tvingBlack
+        pageControl.hidesForSinglePage = true
+        pageControl.numberOfPages = 5
+        pageControl.pageIndicatorTintColor = .darkGray
     }
     
     func setupHierarchy() {
         addSubview(movieImage)
+        addSubview(pageControl)
     }
     
     func setupLayout() {
         movieImage.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+        pageControl.snp.makeConstraints {
+            $0.centerX.equalTo(self)
+            $0.bottom.equalToSuperview().inset(10)
         }
     }
 }

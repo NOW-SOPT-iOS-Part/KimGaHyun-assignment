@@ -34,6 +34,11 @@ struct LiveChannelList {
 extension MainMovieList {
     static func dummy() -> [MainMovieList] {
         return [
+            MainMovieList(mainMovieImg: .imgMovie5),
+            MainMovieList(mainMovieImg: .imgMovie5),
+            MainMovieList(mainMovieImg: .imgMovie5),
+            MainMovieList(mainMovieImg: .imgMovie5),
+            MainMovieList(mainMovieImg: .imgMovie5),
             MainMovieList(mainMovieImg: .imgMovie5)
         ]
     }
