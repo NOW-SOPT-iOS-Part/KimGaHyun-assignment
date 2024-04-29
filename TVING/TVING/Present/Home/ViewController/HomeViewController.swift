@@ -84,10 +84,10 @@ private extension HomeViewController {
 
 extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let pageReusableView = collectionView.supplementaryView(forElementKind: UICollectionView.elementKindSectionFooter, at: indexPath) as? PageReusableCollectionView else {
-            return
+        if let footers = collectionView.visibleSupplementaryViews(ofKind: UICollectionView.elementKindSectionFooter) as? [PageReusableCollectionView], let footer = footers.first {
+            let currentPageIndex = indexPath.row
+            footer.setupPageIndex(forIndex: currentPageIndex)
         }
-        pageReusableView.pageControl.currentPage = indexPath.section
     }
 }
 
@@ -120,7 +120,7 @@ extension HomeViewController: UICollectionViewDataSource {
         case 0:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.className,
                                                                 for: indexPath) as? MainCollectionViewCell else { return UICollectionViewCell() }
-            
+            pageReusableView.pageControl.currentPage = indexPath.item
             cell.bindData(forModel: mainMovieData[indexPath.item])
             
             return cell

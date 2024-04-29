@@ -37,9 +37,10 @@ private extension PageReusableCollectionView {
         pageControl.do {
             $0.hidesForSinglePage = true
             $0.pageIndicatorTintColor = .tvingGray3
+            $0.currentPageIndicatorTintColor = .tvingWhite
             $0.currentPage = 0
             $0.numberOfPages = 5
-            $0.transform = CGAffineTransform(scaleX: 1 , y: 1)
+            $0.transform = CGAffineTransform(scaleX: 0.7 , y: 0.7)
         }
     }
     
@@ -54,4 +55,10 @@ private extension PageReusableCollectionView {
         }
     }
     
+}
+
+extension PageReusableCollectionView {
+    func setupPageIndex(forIndex: Int) {
+        pageControl.currentPage = forIndex
+    }
 }

@@ -34,12 +34,12 @@ struct LiveChannelList {
 extension MainMovieList {
     static func dummy() -> [MainMovieList] {
         return [
-            MainMovieList(mainMovieImg: .imgMovie5),
-            MainMovieList(mainMovieImg: .imgMovie5),
-            MainMovieList(mainMovieImg: .imgMovie5),
-            MainMovieList(mainMovieImg: .imgMovie5),
-            MainMovieList(mainMovieImg: .imgMovie5),
-            MainMovieList(mainMovieImg: .imgMovie5)
+            MainMovieList(mainMovieImg: .imgPoster1),
+            MainMovieList(mainMovieImg: .imgPoster2),
+            MainMovieList(mainMovieImg: .imgPoster3),
+            MainMovieList(mainMovieImg: .imgPoster1),
+            MainMovieList(mainMovieImg: .imgPoster2),
+            MainMovieList(mainMovieImg: .imgPoster3)
         ]
     }
 }
@@ -50,7 +50,7 @@ extension MovieList {
             MovieList(movieImg: .imgMovie2, movieTitle: "해리포터와 마법사의 돌"),
             MovieList(movieImg: .imgMovie3, movieTitle: "반지의 제왕"),
             MovieList(movieImg: .imgMovie4, movieTitle: "스즈메의 문단속"),
-            MovieList(movieImg: .imgMovie5, movieTitle: "너의 이름은")
+            MovieList(movieImg: .imgPoster1, movieTitle: "너의 이름은")
         ]
     }
 }
