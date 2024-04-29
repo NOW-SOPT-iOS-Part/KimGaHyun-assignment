@@ -44,10 +44,16 @@ final class HomeViewController: UIViewController {
 
 private extension HomeViewController {
     func setupNavigationBar() {
+        let leftImage = UIImage(resource: .imgTVING2)
+        let leftImageView = UIImageView(image: leftImage)
+        let leftBarButton = UIBarButtonItem(customView: leftImageView)
+        
         let rightImage = UIImage(resource: .imgDoosan)
         let rightImageView = UIImageView(image: rightImage)
         let rightBarButton = UIBarButtonItem(customView: rightImageView)
+        
         navigationItem.rightBarButtonItem = rightBarButton
+        navigationItem.leftBarButtonItem = leftBarButton
     }
     
     func setAddTarget() {
