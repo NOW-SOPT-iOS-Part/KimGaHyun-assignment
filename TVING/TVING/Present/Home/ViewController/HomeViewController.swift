@@ -32,25 +32,24 @@ final class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupNavigationBar()
         setAddTarget()
         setDelegate()
         setRegister()
         reloadCollectionView(isHidden: true)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: animated)
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: animated)
-    }
 }
 
 
 private extension HomeViewController {
+    func setupNavigationBar() {
+        let rightImage = UIImage(resource: .imgDoosan)
+        let rightImageView = UIImageView(image: rightImage)
+        let rightBarButton = UIBarButtonItem(customView: rightImageView)
+        navigationItem.rightBarButtonItem = rightBarButton
+    }
+    
     func setAddTarget() {
         
     }
@@ -165,8 +164,8 @@ extension HomeViewController: UICollectionViewDataSource {
                                                                                withReuseIdentifier: HomeHeaderCollectionView.className,
                                                                                for: indexPath) as? HomeHeaderCollectionView else { return UICollectionReusableView()}
             guard let topHeader = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader,
-                                                                                     withReuseIdentifier: MainStickyHeaderCollectionReusableView.className,
-                                                                                     for: indexPath) as? MainStickyHeaderCollectionReusableView
+                                                                                  withReuseIdentifier: MainStickyHeaderCollectionReusableView.className,
+                                                                                  for: indexPath) as? MainStickyHeaderCollectionReusableView
             else { return MainStickyHeaderCollectionReusableView() }
             switch indexPath.section {
             case 0:
@@ -207,7 +206,6 @@ extension HomeViewController: UICollectionViewDataSource {
                         referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.size.width, height: 45)
     }
-    
     // Footer 크기 지정
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
@@ -224,7 +222,7 @@ extension HomeViewController: UIScrollViewDelegate {
     private func updateHeaderView(inSection section: Int) {
         //헤더 가져오기
         let headerView = homeView.collectionView.visibleSupplementaryViews(ofKind: UICollectionView.elementKindSectionHeader).first as? MainStickyHeaderCollectionReusableView
-    
+        
         // 스크롤 오프셋
         let yOffset = homeView.collectionView.contentOffset.y
         
@@ -234,7 +232,7 @@ extension HomeViewController: UIScrollViewDelegate {
         if firstVisibleSection == section {
             print("Y좌표: ", yOffset)
             headerView?.frame.origin.y = max(0, yOffset)
-
+            
         }
     }
 }
