@@ -56,6 +56,12 @@ enum CompositionalFactory {
                                                         bottom: itemInset,
                                                         trailing: itemInset)
         
+        section.boundarySupplementaryItems = [
+            NSCollectionLayoutBoundarySupplementaryItem(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                                                          heightDimension: .absolute(30)),
+                                                        elementKind: UICollectionView.elementKindSectionFooter,
+                                                        alignment: .bottom)]
+        
         return section
     }
     

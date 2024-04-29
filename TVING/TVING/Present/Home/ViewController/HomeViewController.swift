@@ -22,6 +22,8 @@ final class HomeViewController: UIViewController {
     
     private let homeView = HomeView()
     private let topCollectionView = TopCollectionView()
+
+    private let pageReusableView = PageReusableCollectionView()
     
     
     // MARK: - Life Cycles
@@ -69,6 +71,9 @@ private extension HomeViewController {
             $0.register(EmptyReusableCollectionView.self,
                         forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
                         withReuseIdentifier: EmptyReusableCollectionView.className)
+            $0.register(PageReusableCollectionView.self,
+                        forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+                        withReuseIdentifier: PageReusableCollectionView.className)
         }
     }
     
@@ -77,7 +82,14 @@ private extension HomeViewController {
     }
 }
 
-extension HomeViewController: UICollectionViewDelegate {}
+extension HomeViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let pageReusableView = collectionView.supplementaryView(forElementKind: UICollectionView.elementKindSectionFooter, at: indexPath) as? PageReusableCollectionView else {
+            return
+        }
+        pageReusableView.pageControl.currentPage = indexPath.section
+    }
+}
 
 extension HomeViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -87,7 +99,7 @@ extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return 4
+            return 5
         case 1:
             return 4
         case 2:
@@ -167,10 +179,18 @@ extension HomeViewController: UICollectionViewDataSource {
             }
             return header
         case UICollectionView.elementKindSectionFooter:
-            guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                               withReuseIdentifier: EmptyReusableCollectionView.className,
-                                                                               for: indexPath) as? EmptyReusableCollectionView else { return UICollectionReusableView() }
-            return footer
+            switch indexPath.section {
+            case 0:
+                guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                                   withReuseIdentifier: PageReusableCollectionView.className,
+                                                                                   for: indexPath) as? PageReusableCollectionView else { return UICollectionReusableView() }
+                return footer
+            default:
+                guard let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                                   withReuseIdentifier: EmptyReusableCollectionView.className,
+                                                                                   for: indexPath) as? EmptyReusableCollectionView else { return UICollectionReusableView() }
+                return footer
+            }
         default:
             return UICollectionReusableView()
         }
