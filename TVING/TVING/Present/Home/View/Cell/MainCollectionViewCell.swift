@@ -58,7 +58,8 @@ private extension MainCollectionViewCell {
     
     func setupLayout() {
         movieImage.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.equalToSuperview().offset(-100)
+            $0.horizontalEdges.bottom.equalToSuperview()
         }
         pageControl.snp.makeConstraints {
             $0.centerX.equalTo(self)
