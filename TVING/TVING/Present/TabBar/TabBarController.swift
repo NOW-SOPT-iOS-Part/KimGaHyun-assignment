@@ -13,7 +13,7 @@ final class TabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setupNavigationBar()
         self.setupUI()
         self.addTabBarController()
     }
@@ -21,10 +21,22 @@ final class TabBarController: UITabBarController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        self.navigationController?.navigationBar.isHidden = true
         self.navigationItem.hidesBackButton = true
     }
   
+    func setupNavigationBar() {
+        let leftImage = UIImage(resource: .imgTVING2)
+        let leftImageView = UIImageView(image: leftImage)
+        let leftBarButton = UIBarButtonItem(customView: leftImageView)
+        
+        let rightImage = UIImage(resource: .imgDoosan)
+        let rightImageView = UIImageView(image: rightImage)
+        let rightBarButton = UIBarButtonItem(customView: rightImageView)
+        
+        navigationItem.rightBarButtonItem = rightBarButton
+        navigationItem.leftBarButtonItem = leftBarButton
+    }
+    
     // MARK: - Set UI
     
     private func setupUI() {

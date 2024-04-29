@@ -21,6 +21,7 @@ final class HomeViewController: UIViewController {
     // MARK: - UI Components
     
     private let homeView = HomeView()
+    private let topCollectionView = TopCollectionView()
     
     
     // MARK: - Life Cycles
@@ -32,35 +33,16 @@ final class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupNavigationBar()
-        setAddTarget()
         setDelegate()
         setRegister()
         reloadCollectionView(isHidden: true)
     }
-    
 }
 
 
 private extension HomeViewController {
-    func setupNavigationBar() {
-        let leftImage = UIImage(resource: .imgTVING2)
-        let leftImageView = UIImageView(image: leftImage)
-        let leftBarButton = UIBarButtonItem(customView: leftImageView)
-        
-        let rightImage = UIImage(resource: .imgDoosan)
-        let rightImageView = UIImageView(image: rightImage)
-        let rightBarButton = UIBarButtonItem(customView: rightImageView)
-        
-        navigationItem.rightBarButtonItem = rightBarButton
-        navigationItem.leftBarButtonItem = leftBarButton
-    }
-    
-    func setAddTarget() {
-        
-    }
-    
     func setDelegate() {
+        topCollectionView.parentViewController = self
         homeView.collectionView.delegate = self
         homeView.collectionView.dataSource = self
     }
@@ -83,9 +65,6 @@ private extension HomeViewController {
             $0.register(HomeHeaderCollectionView.self,
                         forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                         withReuseIdentifier: HomeHeaderCollectionView.className)
-            $0.register(MainStickyHeaderCollectionReusableView.self,
-                        forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                        withReuseIdentifier: MainStickyHeaderCollectionReusableView.className)
             // footer
             $0.register(EmptyReusableCollectionView.self,
                         forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
@@ -98,9 +77,7 @@ private extension HomeViewController {
     }
 }
 
-extension HomeViewController: UICollectionViewDelegate {
-    
-}
+extension HomeViewController: UICollectionViewDelegate {}
 
 extension HomeViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -152,7 +129,7 @@ extension HomeViewController: UICollectionViewDataSource {
                                                                 for: indexPath) as? BaseballCollectionViewCell else { return UICollectionViewCell() }
             return cell
         default:
-            guard let cell = homeView.collectionView.dequeueReusableCell(withReuseIdentifier: MovieCollectionViewCell.identifier,
+            guard let cell = homeView.collectionView.dequeueReusableCell(withReuseIdentifier: MovieCollectionViewCell.className,
                                                                          for: indexPath) as? MovieCollectionViewCell else { return UICollectionViewCell() }
             cell.bindData(forModel: movieData[indexPath.item])
             return cell
@@ -169,14 +146,7 @@ extension HomeViewController: UICollectionViewDataSource {
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                                withReuseIdentifier: HomeHeaderCollectionView.className,
                                                                                for: indexPath) as? HomeHeaderCollectionView else { return UICollectionReusableView()}
-            guard let topHeader = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader,
-                                                                                  withReuseIdentifier: MainStickyHeaderCollectionReusableView.className,
-                                                                                  for: indexPath) as? MainStickyHeaderCollectionReusableView
-            else { return MainStickyHeaderCollectionReusableView() }
             switch indexPath.section {
-            case 0:
-                topHeader.configure()
-                return topHeader
             case 1:
                 header.configureHeader(forTitle: "티빙에서 꼭 봐야하는 콘텐츠")
                 return header
@@ -220,25 +190,28 @@ extension HomeViewController: UICollectionViewDataSource {
     }
 }
 
-extension HomeViewController: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        updateHeaderView(inSection: 0)
-    }
-    
-    private func updateHeaderView(inSection section: Int) {
-        //헤더 가져오기
-        let headerView = homeView.collectionView.visibleSupplementaryViews(ofKind: UICollectionView.elementKindSectionHeader).first as? MainStickyHeaderCollectionReusableView
-        
-        // 스크롤 오프셋
-        let yOffset = homeView.collectionView.contentOffset.y
-        
-        // 헤더의 y 좌표 업데이트
-        let indexPathsForVisibleItems = homeView.collectionView.indexPathsForVisibleItems
-        let firstVisibleSection = indexPathsForVisibleItems.map({ $0.section }).min()
-        if firstVisibleSection == section {
-            print("Y좌표: ", yOffset)
-            headerView?.frame.origin.y = max(0, yOffset)
-            
-        }
-    }
-}
+//extension HomeViewController {
+//    func cellSelected(at indexPath: IndexPath) {
+//            // 선택된 셀에 따라 다른 화면으로 이동
+//            switch indexPath.row {
+//            case 0:
+//                print("CELL 1 CLICKED")
+//                let vc = HomeViewController()
+//                navigationController?.pushViewController(vc, animated: true)
+//            case 1:
+//                print("CELL 2 CLICKED")
+//                let vc = LoginViewController()
+//                navigationController?.pushViewController(vc, animated: true)
+//            case 2:
+//                let vc = UIViewController()
+//                navigationController?.pushViewController(vc, animated: true)
+//            case 3:
+//                let vc = UIViewController()
+//                navigationController?.pushViewController(vc, animated: true)
+//            case 4:
+//                let vc = UIViewController()
+//                navigationController?.pushViewController(vc, animated: true)
+//            default:
+//                break
+//            }
+//    }}
