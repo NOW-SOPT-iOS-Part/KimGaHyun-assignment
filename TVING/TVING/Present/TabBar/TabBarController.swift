@@ -5,4 +5,79 @@
 //  Created by Gahyun Kim on 2024/04/29.
 //
 
-import Foundation
+import UIKit
+
+final class TabBarController: UITabBarController {
+    
+    // MARK: - Life Cycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.setupUI()
+        self.addTabBarController()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        self.navigationController?.navigationBar.isHidden = true
+        self.navigationItem.hidesBackButton = true
+    }
+  
+    // MARK: - Set UI
+    
+    private func setupUI() {
+        self.view.backgroundColor = .tvingBlack
+        tabBar.backgroundColor = .tvingBlack
+        tabBar.barTintColor = .tvingBlack
+        tabBar.unselectedItemTintColor = .tvingWhite
+        tabBar.isTranslucent = false
+    }
+    
+    func addTabBarController() {
+        let viewControllers = TabBarItem.allCases.map {
+            let currentViewController = createViewController(
+                title: $0.itemTitle ?? "",
+                image: $0.normalItem ?? UIImage(),
+                selectedImage: $0.selectedItem ?? UIImage(),
+                viewController: $0.targetViewController
+            )
+            return currentViewController
+        }
+        setViewControllers(viewControllers, animated: false)
+    }
+    
+    func createViewController(title: String,
+                              image: UIImage,
+                              selectedImage: UIImage,
+                              viewController: UIViewController) -> UIViewController {
+        let currentViewController = viewController
+        let tabbarItem = UITabBarItem(
+            title: title,
+            image: image.withRenderingMode(.alwaysOriginal),
+            selectedImage: selectedImage.withRenderingMode(.alwaysOriginal)
+        )
+        
+        // title이 선택되지 않았을 때 폰트, 색상 설정
+        let normalAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.pretendardFont(weight: 300, size: 10),
+            .foregroundColor: UIColor.tvingGray2
+        ]
+        
+        // title이 선택되었을 때 폰트, 색상 설정
+        let selectedAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.pretendardFont(weight: 300, size: 10),
+            .foregroundColor: UIColor.tvingWhite
+        ]
+        
+        tabbarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -2)
+        tabbarItem.setTitleTextAttributes(normalAttributes, for: .normal)
+        tabbarItem.setTitleTextAttributes(selectedAttributes, for: .selected)
+        
+        currentViewController.tabBarItem = tabbarItem
+        
+        return currentViewController
+    }
+}
+
