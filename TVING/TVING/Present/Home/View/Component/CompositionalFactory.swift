@@ -55,6 +55,20 @@ enum CompositionalFactory {
                                                         bottom: itemInset,
                                                         trailing: itemInset)
         
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(44))
+        let headerElement = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
+   
+        // this activates the "sticky" behavior
+        headerElement.pinToVisibleBounds = true
+        section .boundarySupplementaryItems = [headerElement]
+        
+        // Header
+//        section.boundarySupplementaryItems = [
+//            NSCollectionLayoutBoundarySupplementaryItem(layoutSize: .init(widthDimension: .fractionalWidth(1),
+//                                                                          heightDimension: .absolute(40)),
+//                                                        elementKind: UICollectionView.elementKindSectionHeader,
+//                                                        alignment: .top)]
+        
         return section
     }
     

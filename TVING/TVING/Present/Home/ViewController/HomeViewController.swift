@@ -37,6 +37,16 @@ final class HomeViewController: UIViewController {
         setRegister()
         reloadCollectionView(isHidden: true)
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
 }
 
 
@@ -68,6 +78,10 @@ private extension HomeViewController {
             $0.register(HomeHeaderCollectionView.self,
                         forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                         withReuseIdentifier: HomeHeaderCollectionView.className)
+            $0.register(MainStickyHeaderCollectionReusableView.self,
+                        forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                        withReuseIdentifier: MainStickyHeaderCollectionReusableView.className)
+            // footer
             $0.register(EmptyReusableCollectionView.self,
                         forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
                         withReuseIdentifier: EmptyReusableCollectionView.className)
@@ -150,18 +164,30 @@ extension HomeViewController: UICollectionViewDataSource {
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                                withReuseIdentifier: HomeHeaderCollectionView.className,
                                                                                for: indexPath) as? HomeHeaderCollectionView else { return UICollectionReusableView()}
+            guard let topHeader = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader,
+                                                                                     withReuseIdentifier: MainStickyHeaderCollectionReusableView.className,
+                                                                                     for: indexPath) as? MainStickyHeaderCollectionReusableView
+            else { return MainStickyHeaderCollectionReusableView() }
             switch indexPath.section {
+            case 0:
+                topHeader.configure()
+                return topHeader
             case 1:
                 header.configureHeader(forTitle: "티빙에서 꼭 봐야하는 콘텐츠")
+                return header
             case 2:
                 header.configureHeader(forTitle: "인기 LIVE 채널")
+                return header
             case 3:
                 header.configureHeader(forTitle: "1화 무료! 파라마운트+ 인기시리즈")
+                return header
             case 4:
                 header.configureHeader(forTitle: "")
                 header.resetButton()
+                return header
             case 5:
                 header.configureHeader(forTitle: "마술보다 더 신비로운 영화(신비로운 영화사전님)")
+                return header
             default: break
             }
             return header
@@ -190,5 +216,25 @@ extension HomeViewController: UICollectionViewDataSource {
     }
 }
 
+extension HomeViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        updateHeaderView(inSection: 0)
+    }
+    
+    private func updateHeaderView(inSection section: Int) {
+        //헤더 가져오기
+        let headerView = homeView.collectionView.visibleSupplementaryViews(ofKind: UICollectionView.elementKindSectionHeader).first as? MainStickyHeaderCollectionReusableView
+    
+        // 스크롤 오프셋
+        let yOffset = homeView.collectionView.contentOffset.y
+        
+        // 헤더의 y 좌표 업데이트
+        let indexPathsForVisibleItems = homeView.collectionView.indexPathsForVisibleItems
+        let firstVisibleSection = indexPathsForVisibleItems.map({ $0.section }).min()
+        if firstVisibleSection == section {
+            print("Y좌표: ", yOffset)
+            headerView?.frame.origin.y = max(0, yOffset)
 
-
+        }
+    }
+}
