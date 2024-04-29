@@ -50,6 +50,7 @@ enum CompositionalFactory {
         
         // section
         let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .groupPaging
         section.contentInsets = NSDirectionalEdgeInsets(top: itemInset,
                                                         leading: itemInset,
                                                         bottom: itemInset,
