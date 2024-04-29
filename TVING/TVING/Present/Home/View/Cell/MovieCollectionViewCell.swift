@@ -12,8 +12,6 @@ import Then
 
 final class MovieCollectionViewCell: UICollectionViewCell {
     
-    static let identifier = "MovieCollectionViewCell"
-    
     // MARK: - UI Components
     
     private let movieImage = UIImageView()
@@ -25,21 +23,16 @@ final class MovieCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        setView()
+        setupStyle()
+        setupHierarchy()
+        setupLayout()
     }
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK: - Make View
-    
-    func setView() {
-        setupStyle()
-        setupHierarchy()
-        setupLayout()
-    }
+
 }
 
 

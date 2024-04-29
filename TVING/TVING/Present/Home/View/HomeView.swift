@@ -17,6 +17,9 @@ final class HomeView: UIView {
     private let collectionViewLayout = CompositionalFactory.create()
     private(set) lazy var collectionView = UICollectionView(frame: .zero,
                                                             collectionViewLayout: collectionViewLayout)
+    
+    private let headerCollectionView = TopCollectionView()
+    
     // MARK: - Life Cycles
     
     override init(frame: CGRect) {
@@ -40,12 +43,18 @@ private extension HomeView {
     }
     
     func setupHierarchy() {
-        self.addSubview(collectionView)
+        self.addSubviews(collectionView, headerCollectionView)
     }
     
     func setupLayout() {
         collectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+        
+        headerCollectionView.snp.makeConstraints {
+            $0.top.equalTo(safeAreaLayoutGuide)
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(32)
         }
     }
 }
