@@ -22,22 +22,36 @@ final class TopCollectionView: UICollectionView {
         layout.minimumLineSpacing = 0
    
         super.init(frame: .zero, collectionViewLayout: layout)
-        
-        self.register(UICollectionViewCell.self, forCellWithReuseIdentifier: UICollectionViewCell.className)
-        self.dataSource = self
-        self.delegate = self
-        self.backgroundColor = .clear
+    
+        setupStyle()
+        setupDelegate()
+        setupRegister()
     }
+
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
 
+private extension TopCollectionView {
+    func setupStyle() {
+        self.backgroundColor = .clear
+    }
+    
+    func setupDelegate() {
+        self.dataSource = self
+        self.delegate = self
+    }
+    
+    func setupRegister() {
+        self.register(UICollectionViewCell.self, forCellWithReuseIdentifier: UICollectionViewCell.className)
+    }
+}
+
 extension TopCollectionView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("클릭된 셀 : ", indexPath.row)
-
     }
     
 }

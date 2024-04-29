@@ -44,7 +44,6 @@ final class HomeViewController: UIViewController {
 
 private extension HomeViewController {
     func setDelegate() {
-        topCollectionView.parentViewController = self
         homeView.collectionView.delegate = self
         homeView.collectionView.dataSource = self
     }
@@ -202,6 +201,7 @@ extension HomeViewController: UICollectionViewDataSource {
                         referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.size.width, height: 45)
     }
+    
     // Footer 크기 지정
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
@@ -210,28 +210,14 @@ extension HomeViewController: UICollectionViewDataSource {
     }
 }
 
-//extension HomeViewController {
-//    func cellSelected(at indexPath: IndexPath) {
-//            // 선택된 셀에 따라 다른 화면으로 이동
-//            switch indexPath.row {
-//            case 0:
-//                print("CELL 1 CLICKED")
-//                let vc = HomeViewController()
-//                navigationController?.pushViewController(vc, animated: true)
-//            case 1:
-//                print("CELL 2 CLICKED")
-//                let vc = LoginViewController()
-//                navigationController?.pushViewController(vc, animated: true)
-//            case 2:
-//                let vc = UIViewController()
-//                navigationController?.pushViewController(vc, animated: true)
-//            case 3:
-//                let vc = UIViewController()
-//                navigationController?.pushViewController(vc, animated: true)
-//            case 4:
-//                let vc = UIViewController()
-//                navigationController?.pushViewController(vc, animated: true)
-//            default:
-//                break
-//            }
-//    }}
+extension HomeViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let navigationBarHidden = scrollView.contentOffset.y > 0
+        self.navigationController?.setNavigationBarHidden(navigationBarHidden, animated: false)
+        if navigationBarHidden {
+            topCollectionView.backgroundColor = .tvingBlack
+        } else {
+            topCollectionView.backgroundColor = .clear
+        }
+    }
+}
