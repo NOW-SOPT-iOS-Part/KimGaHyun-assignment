@@ -16,7 +16,6 @@ final class MovieCollectionViewCell: UICollectionViewCell {
     
     private let movieImage = UIImageView()
     private let titleLabel = UILabel()
-
     
     // MARK: - Life Cycle
     
@@ -32,7 +31,7 @@ final class MovieCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
 }
 
 

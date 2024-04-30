@@ -22,25 +22,21 @@ final class HomeHeaderCollectionView: UICollectionReusableView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.backgroundColor = .clear
-        setView()
+        setupStyle()
+        setupHierarchy()
+        setupLayout()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-    
-    func setView() {
-        setupStyle()
-        setupHierarchy()
-        setupLayout()
-    }
 }
 
 
 private extension HomeHeaderCollectionView {
-    
     func setupStyle() {
+        self.backgroundColor = .clear
+        
         titleLabel.do {
             $0.font = .pretendardFont(weight: 600, size: 15)
             $0.textColor = .tvingWhite

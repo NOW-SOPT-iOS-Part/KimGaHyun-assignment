@@ -21,20 +21,14 @@ final class MainCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        setView()
+        setupStyle()
+        setupHierarchy()
+        setupLayout()
     }
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    // MARK: - Make View
-    
-    func setView() {
-        setupStyle()
-        setupHierarchy()
-        setupLayout()
     }
 }
 
@@ -57,7 +51,6 @@ private extension MainCollectionViewCell {
         }
     }
 }
-
 
 extension MainCollectionViewCell {
     func bindData(forModel: MainMovieList) {

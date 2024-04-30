@@ -11,7 +11,7 @@ import SnapKit
 import Then
 
 final class PopularLiveCollectionViewCell: UICollectionViewCell {
-
+    
     // MARK: - UI Components
     
     private let channelImg = UIImageView()
@@ -26,20 +26,14 @@ final class PopularLiveCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        setView()
+        setupStyle()
+        setupHierarchy()
+        setupLayout()
     }
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    // MARK: - Make View
-    
-    func setView() {
-        setupStyle()
-        setupHierarchy()
-        setupLayout()
     }
 }
 
@@ -76,9 +70,7 @@ private extension PopularLiveCollectionViewCell {
     
     func setupHierarchy() {
         addSubviews(channelImg, rankingLabel, infoStack)
-        infoStack.addArrangedSubview(entertainLabel)
-        infoStack.addArrangedSubview(programLabel)
-        infoStack.addArrangedSubview(percentLabel)
+        infoStack.addArrangedSubviews(entertainLabel, programLabel, percentLabel)
     }
     
     func setupLayout() {

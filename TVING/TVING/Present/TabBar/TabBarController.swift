@@ -13,6 +13,7 @@ final class TabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupNavigationBar()
         self.setupUI()
         self.addTabBarController()

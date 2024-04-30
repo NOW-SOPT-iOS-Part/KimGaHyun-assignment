@@ -12,7 +12,6 @@ import Then
 
 final class HomeViewController: UIViewController  {
     
-    
     // MARK: - Properties
     
     private var mainMovieData = MainMovieList.dummy()
@@ -23,9 +22,7 @@ final class HomeViewController: UIViewController  {
     
     private let homeView = HomeView()
     let topCollectionView = TopCollectionView()
-    
     private let pageReusableView = PageReusableCollectionView()
-    
     
     // MARK: - Life Cycles
     
@@ -36,13 +33,11 @@ final class HomeViewController: UIViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // setupNavigationBar()
         setDelegate()
         setRegister()
         reloadCollectionView(isHidden: true)
     }
 }
-
 
 private extension HomeViewController {
     func setDelegate() {
@@ -124,14 +119,7 @@ extension HomeViewController: UICollectionViewDataSource {
                                                                 for: indexPath) as? MainCollectionViewCell else { return UICollectionViewCell() }
             pageReusableView.pageControl.currentPage = indexPath.item
             cell.bindData(forModel: mainMovieData[indexPath.item])
-            
             return cell
-        case 1:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCollectionViewCell.className,
-                                                                for: indexPath) as? MovieCollectionViewCell else { return UICollectionViewCell() }
-            cell.bindData(forModel: movieData[indexPath.item])
-            return cell
-            
         case 2:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PopularLiveCollectionViewCell.className,
                                                                 for: indexPath) as? PopularLiveCollectionViewCell else { return UICollectionViewCell() }
@@ -160,6 +148,7 @@ extension HomeViewController: UICollectionViewDataSource {
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                                withReuseIdentifier: HomeHeaderCollectionView.className,
                                                                                for: indexPath) as? HomeHeaderCollectionView else { return UICollectionReusableView()}
+            // header 재사용 - Title만 변경
             switch indexPath.section {
             case 1:
                 header.configureHeader(forTitle: "티빙에서 꼭 봐야하는 콘텐츠")
@@ -226,7 +215,6 @@ extension HomeViewController: UIScrollViewDelegate {
 }
 
 extension HomeViewController: TopCollectionViewDelegate {
-    
     func navigateToScreen(vc: UIViewController) {
         let vc = vc
         navigationController?.setViewControllers([vc], animated: true)

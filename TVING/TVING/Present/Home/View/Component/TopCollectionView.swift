@@ -24,14 +24,14 @@ final class TopCollectionView: UICollectionView {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 0
-   
+        
         super.init(frame: .zero, collectionViewLayout: layout)
-    
+        
         setupStyle()
         setupDelegate()
         setupRegister()
     }
-
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -55,11 +55,8 @@ private extension TopCollectionView {
 
 extension TopCollectionView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("클릭된 셀 : ", indexPath.row)
-        // 델리게이트 메서드 호출
         topdelegate?.topCollectionView(indexPath: indexPath)
     }
-    
 }
 
 extension TopCollectionView: UICollectionViewDataSource {
@@ -79,7 +76,6 @@ extension TopCollectionView: UICollectionViewDataSource {
         label.textColor = .tvingWhite
         label.font = .pretendardFont(weight: 400, size: 17)
         cell.contentView.addSubview(label)
-        
         return cell
     }
 }
