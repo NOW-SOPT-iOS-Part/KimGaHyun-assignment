@@ -10,11 +10,15 @@ import UIKit
 import SnapKit
 import Then
 
+protocol TopCollectionViewDelegate: AnyObject {
+    func topCollectionView(indexPath: IndexPath)
+}
 
 final class TopCollectionView: UICollectionView {
     
     let data = ["홈", "실시간", "TV프로그램", "영화", "파라마운트+"]
-    var parentViewController: HomeViewController?
+    
+    weak var topdelegate: TopCollectionViewDelegate?
     
     init() {
         let layout = UICollectionViewFlowLayout()
@@ -52,6 +56,8 @@ private extension TopCollectionView {
 extension TopCollectionView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("클릭된 셀 : ", indexPath.row)
+        // 델리게이트 메서드 호출
+        topdelegate?.topCollectionView(indexPath: indexPath)
     }
     
 }

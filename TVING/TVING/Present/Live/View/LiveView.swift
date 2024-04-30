@@ -1,8 +1,8 @@
 //
-//  HomeView.swift
+//  LiveView.swift
 //  TVING
 //
-//  Created by Gahyun Kim on 2024/04/22.
+//  Created by Gahyun Kim on 2024/04/30.
 //
 
 import UIKit
@@ -10,14 +10,11 @@ import UIKit
 import SnapKit
 import Then
 
-final class HomeView: UIView {
+final class LiveView: UIView {
     
-    // MARK: - Properties
+    // MARK: - UI Properties
     
-    private let collectionViewLayout = CompositionalFactory.create()
-    private(set) lazy var collectionView = UICollectionView(frame: .zero,
-                                                            collectionViewLayout: collectionViewLayout)
-    
+    private let liveImageView = UIImageView()
     let headerCollectionView = TopCollectionView()
     
     // MARK: - Life Cycles
@@ -37,18 +34,18 @@ final class HomeView: UIView {
 
 // MARK: - Extensions
 
-private extension HomeView {
+private extension LiveView {
     func setupStyle() {
-        collectionView.backgroundColor = .tvingBlack
+        liveImageView.image = .imgLiveView
     }
     
     func setupHierarchy() {
-        self.addSubviews(collectionView, headerCollectionView)
+      addSubviews(liveImageView, headerCollectionView)
     }
     
     func setupLayout() {
-        collectionView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+        liveImageView.snp.makeConstraints {
+            $0.top.equalTo(safeAreaLayoutGuide).offset(20)
         }
         
         headerCollectionView.snp.makeConstraints {

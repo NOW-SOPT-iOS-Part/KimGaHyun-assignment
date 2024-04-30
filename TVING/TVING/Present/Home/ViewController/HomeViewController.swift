@@ -10,7 +10,8 @@ import UIKit
 import SnapKit
 import Then
 
-final class HomeViewController: UIViewController {
+final class HomeViewController: UIViewController  {
+    
     
     // MARK: - Properties
     
@@ -21,8 +22,8 @@ final class HomeViewController: UIViewController {
     // MARK: - UI Components
     
     private let homeView = HomeView()
-    private let topCollectionView = TopCollectionView()
-
+    let topCollectionView = TopCollectionView()
+    
     private let pageReusableView = PageReusableCollectionView()
     
     
@@ -35,6 +36,7 @@ final class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // setupNavigationBar()
         setDelegate()
         setRegister()
         reloadCollectionView(isHidden: true)
@@ -46,6 +48,7 @@ private extension HomeViewController {
     func setDelegate() {
         homeView.collectionView.delegate = self
         homeView.collectionView.dataSource = self
+        homeView.headerCollectionView.topdelegate = self
     }
     
     func setRegister() {
@@ -218,6 +221,31 @@ extension HomeViewController: UIScrollViewDelegate {
             topCollectionView.backgroundColor = .tvingBlack
         } else {
             topCollectionView.backgroundColor = .clear
+        }
+    }
+}
+
+extension HomeViewController: TopCollectionViewDelegate {
+    
+    func navigateToScreen(vc: UIViewController) {
+        let vc = vc
+        navigationController?.setViewControllers([vc], animated: true)
+    }
+    
+    func topCollectionView(indexPath: IndexPath) {
+        switch indexPath.row {
+        case 0:
+            let homeVC = HomeViewController()
+            navigateToScreen(vc: homeVC)
+        case 1:
+            loadView()
+            let liveVC = LiveViewController()
+            navigateToScreen(vc: liveVC)
+        case 2:
+            let movieVC = MovieViewController()
+            navigateToScreen(vc: movieVC)
+        default:
+            break
         }
     }
 }
