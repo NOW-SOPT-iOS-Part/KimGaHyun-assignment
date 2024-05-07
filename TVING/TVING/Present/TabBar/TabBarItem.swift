@@ -14,13 +14,13 @@ enum TabBarItem: CaseIterable {
     var normalItem: UIImage? {
         switch self {
         case .home:
-            return UIImage(systemName: "house")!.withTintColor(.tvingGray2)
+            if let img = UIImage(systemName: "house") { return img.withTintColor(.tvingGray2)} else { return nil }
         case .toBeReleased:
-            return UIImage(systemName: "play.rectangle")!.withTintColor(.tvingGray2)
+            if let img = UIImage(systemName: "play.rectangle") { return img.withTintColor(.tvingGray2)} else { return nil }
         case .search:
-            return UIImage(systemName: "magnifyingglass")!.withTintColor(.tvingGray2)
+            if let img = UIImage(systemName: "magnifyingglass") { return img.withTintColor(.tvingGray2)} else { return nil }
         case .history:
-            return UIImage(systemName: "clock.arrow.circlepath")!.withTintColor(.tvingGray2)
+            if let img = UIImage(systemName: "clock.arrow.circlepath") { return img.withTintColor(.tvingGray2)} else { return nil }
         }
     }
     
@@ -28,13 +28,13 @@ enum TabBarItem: CaseIterable {
     var selectedItem: UIImage? {
         switch self {
         case .home:
-            return UIImage(systemName: "house")!.withTintColor(.tvingWhite)
+            if let img = UIImage(systemName: "house") { return img.withTintColor(.tvingWhite)} else { return nil }
         case .toBeReleased:
-            return UIImage(systemName: "play.rectangle")!.withTintColor(.tvingWhite)
+            if let img = UIImage(systemName: "play.rectangle") { return img.withTintColor(.tvingWhite)} else { return nil }
         case .search:
-            return UIImage(systemName: "magnifyingglass")!.withTintColor(.tvingWhite)
+            if let img = UIImage(systemName: "magnifyingglass") { return img.withTintColor(.tvingWhite)} else { return nil }
         case .history:
-            return UIImage(systemName: "clock.arrow.circlepath")!.withTintColor(.tvingWhite)
+            if let img = UIImage(systemName: "clock.arrow.circlepath") { return img.withTintColor(.tvingWhite)} else { return nil }
         }
     }
     

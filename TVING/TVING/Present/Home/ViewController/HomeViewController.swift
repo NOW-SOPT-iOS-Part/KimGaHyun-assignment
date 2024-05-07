@@ -151,20 +151,20 @@ extension HomeViewController: UICollectionViewDataSource {
             // header 재사용 - Title만 변경
             switch indexPath.section {
             case 1:
-                header.configureHeader(forTitle: "티빙에서 꼭 봐야하는 콘텐츠")
+                header.configureHeader(forTitle: StringLiterals.HomeHeader.contents)
                 return header
             case 2:
-                header.configureHeader(forTitle: "인기 LIVE 채널")
+                header.configureHeader(forTitle: StringLiterals.HomeHeader.liveChannel)
                 return header
             case 3:
-                header.configureHeader(forTitle: "1화 무료! 파라마운트+ 인기시리즈")
+                header.configureHeader(forTitle: StringLiterals.HomeHeader.paramount)
                 return header
             case 4:
-                header.configureHeader(forTitle: "")
+                header.configureHeader(forTitle: StringLiterals.HomeHeader.empty)
                 header.resetButton()
                 return header
             case 5:
-                header.configureHeader(forTitle: "마술보다 더 신비로운 영화(신비로운 영화사전님)")
+                header.configureHeader(forTitle: StringLiterals.HomeHeader.magic)
                 return header
             default: break
             }
@@ -226,7 +226,6 @@ extension HomeViewController: TopCollectionViewDelegate {
             let homeVC = HomeViewController()
             navigateToScreen(vc: homeVC)
         case 1:
-            loadView()
             let liveVC = LiveViewController()
             navigateToScreen(vc: liveVC)
         case 2:
