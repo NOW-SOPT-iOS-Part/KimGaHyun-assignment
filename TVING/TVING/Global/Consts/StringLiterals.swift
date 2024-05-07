@@ -23,4 +23,12 @@ enum StringLiterals {
         static let saveBtn = "저장하기"
     }
     
+    enum HomeHeader {
+        static let contents = "티빙에서 꼭 봐야하는 콘텐츠"
+        static let liveChannel = "인기 LIVE 채널"
+        static let paramount = "1화 무료! 파라마운트+ 인기시리즈"
+        static let empty = ""
+        static let magic = "마술보다 더 신비로운 영화(신비로운 영화사전님)"
+    }
+    
 }
