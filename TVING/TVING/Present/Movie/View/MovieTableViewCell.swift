@@ -18,6 +18,7 @@ final class MovieTableViewCell: UITableViewCell {
     let movieTitleLabel = UILabel()
     let openDate = UILabel()
     let viewerCount = UILabel()
+    
     private let rankStakView = UIStackView()
     
     // MARK: - Life Cycle

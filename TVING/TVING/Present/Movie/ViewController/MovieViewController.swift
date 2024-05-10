@@ -29,7 +29,9 @@ final class MovieViewController: UIViewController {
         setupDelegate()
         setupRegister()
     }
-    
+}
+
+private extension MovieViewController {
     func setupDelegate() {
         movieView.delegate = self
         movieView.headerCollectionView.topdelegate = self
@@ -42,6 +44,8 @@ final class MovieViewController: UIViewController {
                                           forCellReuseIdentifier: MovieTableViewCell.className)
     }
 }
+
+// MARK: - CollectionView
 
 extension MovieViewController: TopCollectionViewDelegate {
     func navigateToScreen(vc: UIViewController) {
@@ -67,6 +71,8 @@ extension MovieViewController: TopCollectionViewDelegate {
     }
 }
 
+// MARK: - TableView
+
 extension MovieViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
@@ -87,6 +93,16 @@ extension MovieViewController: UITableViewDataSource {
         return cell
     }
 }
+
+// MARK: - MovieViewDelegate
+
+extension MovieViewController: MovieViewDelegate {
+    func didSelectDate(_ date: String) {
+        getDailyRank(for: date)
+    }
+}
+
+// MARK: - Network
 
 extension MovieViewController {
     func getDailyRank(for date: String) {
@@ -111,11 +127,5 @@ extension MovieViewController {
                 print("네트워크 오류입니다")
             }
         }
-    }
-}
-
-extension MovieViewController: MovieViewDelegate {
-    func didSelectDate(_ date: String) {
-        getDailyRank(for: date)
     }
 }
