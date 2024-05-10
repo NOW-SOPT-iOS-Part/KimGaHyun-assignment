@@ -8,8 +8,12 @@
 import UIKit
 
 final class MovieViewController: UIViewController {
-
-    // MARK: - UI Properties
+    
+    // MARK: - Property
+    
+    private var dailyBoxOfficeList: [DailyBoxOfficeList]?
+    
+    // MARK: - UI Component
     
     private let movieView = MovieView()
     
@@ -22,7 +26,20 @@ final class MovieViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupDelegate()
+        setupRegister()
+    }
+    
+    func setupDelegate() {
+        movieView.delegate = self
         movieView.headerCollectionView.topdelegate = self
+        movieView.movieTableView.delegate = self
+        movieView.movieTableView.dataSource = self
+    }
+    
+    func setupRegister() {
+        movieView.movieTableView.register(MovieTableViewCell.self,
+                                          forCellReuseIdentifier: MovieTableViewCell.className)
     }
 }
 
@@ -47,5 +64,58 @@ extension MovieViewController: TopCollectionViewDelegate {
             let homeVC = HomeViewController()
             navigateToScreen(vc: homeVC)
         }
+    }
+}
+
+extension MovieViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+}
+
+extension MovieViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return dailyBoxOfficeList?.count ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MovieTableViewCell.className, for: indexPath) as? MovieTableViewCell else {
+            return UITableViewCell()
+        }
+        let data = dailyBoxOfficeList?[indexPath.row]
+        cell.configureCell(data)
+        return cell
+    }
+}
+
+extension MovieViewController {
+    func getDailyRank(for date: String) {
+        MovieService.shared.getDailyRank(targetDate: date) { [weak self] response in
+            switch response {
+            case .success(let data):
+                guard let data = data as? DailyBoxOffice else { return }
+                self?.dailyBoxOfficeList = data.boxOfficeResult.dailyBoxOfficeList
+                // 데이터를 받은 후에 databind 호출
+                if let dataList = self?.dailyBoxOfficeList {
+                    self?.movieView.databind(dataList)
+                }
+            case .requestErr:
+                print("요청 오류 입니다")
+            case .decodedErr:
+                print("디코딩 오류 입니다")
+            case .pathErr:
+                print("경로 오류 입니다")
+            case .serverErr:
+                print("서버 오류입니다")
+            case .networkFail:
+                print("네트워크 오류입니다")
+            }
+        }
+    }
+}
+
+extension MovieViewController: MovieViewDelegate {
+    func didSelectDate(_ date: String) {
+        getDailyRank(for: date)
     }
 }
