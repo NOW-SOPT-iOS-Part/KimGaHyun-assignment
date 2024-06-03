@@ -11,7 +11,6 @@ import Moya
 import RxSwift
 import RxCocoa
 
-
 protocol MovieViewModelInputs {
     func getDailyRankDTO(for date: String)
 }

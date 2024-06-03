@@ -40,11 +40,11 @@ private extension MovieViewController {
     func setupDelegate() {
         movieView.delegate = self
         movieView.headerCollectionView.topdelegate = self
-        // movieView.movieTableView.rx.setDelegate(self).disposed(by: disposeBag)
+        movieView.movieTableView.rx.setDelegate(self).disposed(by: disposeBag)
     }
     
     func setupRegister() {
-        movieView.movieTableView.register(UINib(nibName: MovieTableViewCell.className, bundle: nil), forCellReuseIdentifier: MovieTableViewCell.className)
+        movieView.movieTableView.register(MovieTableViewCell.self, forCellReuseIdentifier: MovieTableViewCell.className)
     }
     
     func bindViewModel() {
@@ -54,10 +54,9 @@ private extension MovieViewController {
             .bind(to: movieView.movieTableView.rx
                 .items(cellIdentifier: MovieTableViewCell.className,
                        cellType: MovieTableViewCell.self)) { (_, model, cell) in
-                
                 cell.configureCell(data: model)
             }
-                       .disposed(by: disposeBag)
+            .disposed(by: disposeBag)
         
     }
 }
