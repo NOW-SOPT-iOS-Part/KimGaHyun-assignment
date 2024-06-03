@@ -20,7 +20,7 @@ final class MovieView: UIView {
     // MARK: - Properties
     
     weak var delegate: MovieViewDelegate?
-    private var dailyBoxOfficeList: [DailyBoxOfficeList] = [] {
+    private var dailyBoxOfficeList: [MovieDTO] = [] {
         didSet {
             movieTableView.reloadData()
         }
@@ -61,7 +61,7 @@ private extension MovieView {
             $0.addTarget(self, action: #selector(dateChanged(_:)), for: .valueChanged)
         }
         movieTableView.do {
-            $0.backgroundColor = .clear
+            $0.backgroundColor = .red
             $0.frame = CGRect.init(x: 0, y: 200, width: Int(self.frame.width), height: 200)
         }
     }
@@ -100,7 +100,7 @@ private extension MovieView {
 }
 
 extension MovieView {
-    func databind(_ data: [DailyBoxOfficeList]) {
+    func databind(_ data: [MovieDTO]) {
         dailyBoxOfficeList = data
     }
 }

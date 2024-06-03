@@ -7,11 +7,15 @@
 
 import UIKit
 
+import RxSwift
+import RxCocoa
+
 final class MovieViewController: UIViewController {
     
     // MARK: - Property
     
-    private var dailyBoxOfficeList: [DailyBoxOfficeList]?
+    private let disposeBag = DisposeBag()
+    private let movieViewModel = MovieViewModel()
     
     // MARK: - UI Component
     
@@ -28,6 +32,7 @@ final class MovieViewController: UIViewController {
         
         setupDelegate()
         setupRegister()
+        bindViewModel()
     }
 }
 
@@ -35,16 +40,27 @@ private extension MovieViewController {
     func setupDelegate() {
         movieView.delegate = self
         movieView.headerCollectionView.topdelegate = self
-        movieView.movieTableView.delegate = self
-        movieView.movieTableView.dataSource = self
+        // movieView.movieTableView.rx.setDelegate(self).disposed(by: disposeBag)
     }
     
     func setupRegister() {
-        movieView.movieTableView.register(MovieTableViewCell.self,
-                                          forCellReuseIdentifier: MovieTableViewCell.className)
+        movieView.movieTableView.register(UINib(nibName: MovieTableViewCell.className, bundle: nil), forCellReuseIdentifier: MovieTableViewCell.className)
+    }
+    
+    func bindViewModel() {
+        movieViewModel.outputs.dailyRankData
+            .filter { !$0.isEmpty }
+            .observe(on: MainScheduler.instance)
+            .bind(to: movieView.movieTableView.rx
+                .items(cellIdentifier: MovieTableViewCell.className,
+                       cellType: MovieTableViewCell.self)) { (_, model, cell) in
+                
+                cell.configureCell(data: model)
+            }
+                       .disposed(by: disposeBag)
+        
     }
 }
-
 // MARK: - CollectionView
 
 extension MovieViewController: TopCollectionViewDelegate {
@@ -79,53 +95,8 @@ extension MovieViewController: UITableViewDelegate {
     }
 }
 
-extension MovieViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dailyBoxOfficeList?.count ?? 0
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: MovieTableViewCell.className, for: indexPath) as? MovieTableViewCell else {
-            return UITableViewCell()
-        }
-        let data = dailyBoxOfficeList?[indexPath.row]
-        cell.configureCell(data)
-        return cell
-    }
-}
-
-// MARK: - MovieViewDelegate
-
 extension MovieViewController: MovieViewDelegate {
     func didSelectDate(_ date: String) {
-        getDailyRank(for: date)
-    }
-}
-
-// MARK: - Network
-
-extension MovieViewController {
-    func getDailyRank(for date: String) {
-        MovieService.shared.getDailyRank(targetDate: date) { [weak self] response in
-            switch response {
-            case .success(let data):
-                guard let data = data as? DailyBoxOffice else { return }
-                self?.dailyBoxOfficeList = data.boxOfficeResult.dailyBoxOfficeList
-                // 데이터를 받은 후에 databind 호출
-                if let dataList = self?.dailyBoxOfficeList {
-                    self?.movieView.databind(dataList)
-                }
-            case .requestErr:
-                print("요청 오류 입니다")
-            case .decodedErr:
-                print("디코딩 오류 입니다")
-            case .pathErr:
-                print("경로 오류 입니다")
-            case .serverErr:
-                print("서버 오류입니다")
-            case .networkFail:
-                print("네트워크 오류입니다")
-            }
-        }
+        movieViewModel.inputs.getDailyRankDTO(for: date)
     }
 }
