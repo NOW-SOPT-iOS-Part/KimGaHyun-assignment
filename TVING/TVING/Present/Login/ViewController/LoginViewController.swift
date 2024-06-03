@@ -10,10 +10,15 @@ import UIKit
 import SnapKit
 import Then
 
+protocol idDelegate: AnyObject {
+    func idBinding(id: String)
+}
+
 final class LoginViewController: UIViewController, UISheetPresentationControllerDelegate {
     
     // MARK: - Properties
     
+    weak var delegate: idDelegate?
     var name: String = ""
     
     // MARK: - UI Components
@@ -103,9 +108,9 @@ extension LoginViewController {
     func pushToWelcomeVC() {
         let welcomeViewController = WelcomeViewController()
         if name == "" {
-            welcomeViewController.bindData(loginView.idTextField.text ?? "")
+            welcomeViewController.idBinding(id: loginView.idTextField.text ?? "")
         } else {
-            welcomeViewController.bindData(name)
+            welcomeViewController.idBinding(id: name)
         }
         self.navigationController?.pushViewController(welcomeViewController, animated: true)
     }
@@ -116,9 +121,9 @@ extension LoginViewController {
         nicknameViewController.modalPresentationStyle = .pageSheet
         
         if let sheet = nicknameViewController.sheetPresentationController {
-            sheet.detents = [.medium(), .large()]   //지원할 크기 지정
-            sheet.delegate = self   //크기 변하는거 감지
-            sheet.prefersGrabberVisible = true  //시트 상단에 그래버 표시 (기본 값은 false)
+            sheet.detents = [.medium(), .large()]
+            sheet.delegate = self
+            sheet.prefersGrabberVisible = true 
             sheet.preferredCornerRadius = 20
         }
         nicknameViewController.delegate = self
