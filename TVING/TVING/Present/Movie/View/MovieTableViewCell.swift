@@ -80,7 +80,7 @@ private extension MovieTableViewCell {
 }
 
 extension MovieTableViewCell {
-    func configureCell(data: MovieDTO?) {
+    func configureCell(data: DailyBoxOfficeList?) {
         rankLabel.text = "\(data?.rank ?? "")위"
         movieTitleLabel.text = data?.movieNm
         openDate.text = "\(data?.openDt ?? "") 개봉"

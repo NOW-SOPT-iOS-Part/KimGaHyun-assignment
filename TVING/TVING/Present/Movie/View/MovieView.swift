@@ -20,7 +20,7 @@ final class MovieView: UIView {
     // MARK: - Properties
     
     weak var delegate: MovieViewDelegate?
-    private var dailyBoxOfficeList: [MovieDTO] = [] {
+    private var dailyBoxOfficeList: [DailyBoxOfficeList] = [] {
         didSet {
             movieTableView.reloadData()
         }
@@ -100,7 +100,7 @@ private extension MovieView {
 }
 
 extension MovieView {
-    func databind(_ data: [MovieDTO]) {
+    func databind(_ data: [DailyBoxOfficeList]) {
         dailyBoxOfficeList = data
     }
 }
