@@ -9,6 +9,8 @@ import UIKit
 
 import SnapKit
 import Then
+import RxSwift
+import RxCocoa
 
 protocol idDelegate: AnyObject {
     func idBinding(id: String)
@@ -20,6 +22,9 @@ final class LoginViewController: UIViewController, UISheetPresentationController
     
     weak var delegate: idDelegate?
     var name: String = ""
+    
+    let viewModel = LoginViewModel()
+    let disposeBag = DisposeBag()
     
     // MARK: - UI Components
     
@@ -36,6 +41,7 @@ final class LoginViewController: UIViewController, UISheetPresentationController
         
         setAddTarget()
         setDelegate()
+        bindViewModel()
     }
 }
 
@@ -52,11 +58,29 @@ private extension LoginViewController {
         loginView.passwordTextField.delegate = self
         loginView.idTextField.delegate = self
     }
-    
-    func updateLoginButtonState(isEnabled: Bool, backgroundColor: UIColor, borderColor: UIColor) {
-        loginView.loginButton.isEnabled = isEnabled
-        loginView.loginButton.backgroundColor = backgroundColor
-        loginView.loginButton.layer.borderColor = borderColor.cgColor
+
+    func bindViewModel() {
+        loginView.idTextField.rx.text
+            .bind(to: viewModel.idTextFieldText)
+            .disposed(by: disposeBag)
+        
+        loginView.passwordTextField.rx.text
+            .bind(to: viewModel.passwordTextFieldText)
+            .disposed(by: disposeBag)
+        
+        viewModel.isLoginButtonEnabled
+            .bind(to: loginView.loginButton.rx.isEnabled)
+            .disposed(by: disposeBag)
+        
+        viewModel.loginButtonBackgroundColor
+            .bind(to: loginView.loginButton.rx.backgroundColor)
+            .disposed(by: disposeBag)
+        
+        viewModel.loginButtonBorderColor
+            .subscribe(onNext: { [weak self] color in
+                self?.loginView.loginButton.layer.borderColor = color.cgColor
+            })
+            .disposed(by: disposeBag)
     }
 }
 
@@ -74,15 +98,6 @@ extension LoginViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         textField.layer.borderColor = .none
         textField.layer.borderWidth = 0
-    }
-    
-    // textField 상태에 따라 LoginButton 상태 활성화 유
-    func textFieldDidChangeSelection(_ textField: UITextField) {
-        if (loginView.idTextField.text?.count ?? 0 < 1) || (loginView.passwordTextField.text?.count ?? 0 < 1) {
-            updateLoginButtonState(isEnabled: false, backgroundColor: .tvingBlack, borderColor: .tvingGray4)
-        } else {
-            updateLoginButtonState(isEnabled: true, backgroundColor: .tvingRed, borderColor: .clear)
-        }
     }
 }
 
