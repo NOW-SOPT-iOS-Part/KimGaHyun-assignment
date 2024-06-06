@@ -51,7 +51,7 @@ enum TabBarItem: CaseIterable {
     var targetViewController: UIViewController {
         switch self {
         case .home: return HomeViewController()
-        case .toBeReleased: return HomeViewController()
+        case .toBeReleased: return LoginViewController()
         case .search: return HomeViewController()
         case .history: return HomeViewController()
         }
