@@ -26,20 +26,20 @@ final class WelcomeViewController: UIViewController {
         super.viewDidLoad()
         
         setAddTarget()
+        setDelegate()
     }
 }
 
 // MARK: - Extensions
 
 private extension WelcomeViewController {
+    func setDelegate() {
+        let loginViewController = LoginViewController()
+        loginViewController.delegate = self
+    }
+    
     func setAddTarget() {
         welcomeView.goBackToMainButton.addTarget(self, action: #selector(backToLoginButtonDidTap), for: .touchUpInside)
-    }
-}
-
-extension WelcomeViewController {
-    func bindData(_ name: String) {
-        welcomeView.welcomeLabel.text = "\(name) 님\n반가워요!🩷"
     }
     
     @objc func backToLoginButtonDidTap() {
@@ -48,5 +48,11 @@ extension WelcomeViewController {
         } else {
             self.navigationController?.popViewController(animated: true)
         }
+    }
+}
+
+extension WelcomeViewController: idDelegate {
+    func idBinding(id: String) {
+        welcomeView.welcomeLabel.text = id + "님 반가워요!🩷"
     }
 }

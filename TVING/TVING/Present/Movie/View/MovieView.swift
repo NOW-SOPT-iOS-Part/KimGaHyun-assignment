@@ -61,7 +61,7 @@ private extension MovieView {
             $0.addTarget(self, action: #selector(dateChanged(_:)), for: .valueChanged)
         }
         movieTableView.do {
-            $0.backgroundColor = .clear
+            $0.backgroundColor = .red
             $0.frame = CGRect.init(x: 0, y: 200, width: Int(self.frame.width), height: 200)
         }
     }
